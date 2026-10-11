@@ -1,0 +1,187 @@
+schema_version: 1
+kind: question_bank
+id: ats064-section-060
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material; not official examination questions.
+scope:
+  type: section
+  id: section-060
+  title: 'Checkpoint: State Drift, Ownership And Meaningful Comparison, Observe, Compare, Act And Report,
+    Managed Runtimes, Agents And Policy Boundaries'
+placement:
+  position: after
+  reading: sections/section-060/module-01/course-02-summary.md
+questions:
+- id: ats064-section-060-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Distinguish intentional desired-state change from actual-state drift.
+  source_readings:
+  - sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
+  prompt: Which case is actual-state drift?
+  options:
+  - id: a
+    text: A generated timestamp changes under an excluded status contract.
+    explanation: It may not be a managed comparison field.
+  - id: b
+    text: A managed value changes while authoritative desired state remains unchanged.
+    explanation: The target diverges from the declared condition.
+  - id: c
+    text: A reviewed desired version is updated before the agent applies it.
+    explanation: That is an intentional intent change awaiting convergence.
+  correct_option: b
+  explanation: The target diverges from the declared condition.
+- id: ats064-section-060-q02
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain comparison scope, defaults and ignored differences.
+  source_readings:
+  - sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
+  prompt: Why define ownership before enabling correction?
+  options:
+  - id: a
+    text: Two writers can continually impose incompatible values.
+    explanation: Coherent authority supports convergence.
+  - id: b
+    text: Ownership automatically provides unlimited capacity.
+    explanation: Capacity is separate.
+  - id: c
+    text: Every controller always agrees on all fields.
+    explanation: Independent writers can conflict.
+  correct_option: a
+  explanation: Coherent authority supports convergence.
+- id: ats064-section-060-q03
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Reason about competing writers and emergency modifications.
+  source_readings:
+  - sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
+  prompt: What risk comes from an overly broad ignore rule?
+  options:
+  - id: a
+    text: It always makes every workload healthy.
+    explanation: Ignoring does not repair behavior.
+  - id: b
+    text: It automatically stores every database backup.
+    explanation: That is unrelated.
+  - id: c
+    text: It can hide a meaningful unauthorized or unintended change.
+    explanation: Comparison scope determines visible drift.
+  correct_option: c
+  explanation: Comparison scope determines visible drift.
+- id: ats064-section-060-q04
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain reconciliation as a feedback-controlled process.
+  source_readings:
+  - sections/section-050/module-01/course-01-observe-compare-act-and-report.md
+  prompt: What sequence best describes reconciliation?
+  options:
+  - id: a
+    text: Render a browser page and stop forever.
+    explanation: That does not establish ongoing control.
+  - id: b
+    text: Observe, compare, act and report, then evaluate again.
+    explanation: It is a feedback process.
+  - id: c
+    text: Execute a historical command list without reading the target.
+    explanation: That is blind procedural repetition.
+  correct_option: b
+  explanation: It is a feedback process.
+- id: ats064-section-060-q05
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Distinguish idempotent progress from repeated blind execution.
+  source_readings:
+  - sections/section-050/module-01/course-01-observe-compare-act-and-report.md
+  prompt: Why does idempotent behavior matter?
+  options:
+  - id: a
+    text: Retries should not create unnecessary duplicate side effects.
+    explanation: Repeated work must remain safe.
+  - id: b
+    text: It guarantees every external service is available.
+    explanation: Availability is separate.
+  - id: c
+    text: It means the controller never acts.
+    explanation: It can act when conditions require it.
+  correct_option: a
+  explanation: Repeated work must remain safe.
+- id: ats064-section-060-q06
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Identify blocked convergence and actionable status evidence.
+  source_readings:
+  - sections/section-050/module-01/course-01-observe-compare-act-and-report.md
+  prompt: The desired workload cannot start because capacity is absent. What should the controller provide?
+  options:
+  - id: a
+    text: An invented successful health result.
+    explanation: That would conceal the failure.
+  - id: b
+    text: A guarantee that every user request is served.
+    explanation: The workload is not ready.
+  - id: c
+    text: Useful blocked-condition evidence and controlled retry behavior.
+    explanation: Running longer does not create a guarantee of capacity.
+  correct_option: c
+  explanation: Running longer does not create a guarantee of capacity.
+- id: ats064-section-060-q07
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Identify runtime, agent and policy components of a GitOps-managed system.
+  source_readings:
+  - sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
+  prompt: Which elements belong to the managed-system model?
+  options:
+  - id: a
+    text: Only a browser screenshot.
+    explanation: It does not identify control components.
+  - id: b
+    text: Runtimes, management agents and governing policies.
+    explanation: A repository alone is not the complete system.
+  - id: c
+    text: Only a Git branch name.
+    explanation: That identifies one input path.
+  correct_option: b
+  explanation: A repository alone is not the complete system.
+- id: ats064-section-060-q08
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain management scope and bootstrap dependencies.
+  source_readings:
+  - sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
+  prompt: Why does bootstrap need explicit treatment?
+  options:
+  - id: a
+    text: The initial trusted agent and source access must exist before ongoing management.
+    explanation: A controller cannot assume its own initial installation.
+  - id: b
+    text: Git text files automatically create all agents without a consumer.
+    explanation: An implementation is required.
+  - id: c
+    text: Bootstrap removes all later permission checks.
+    explanation: Ongoing authority still matters.
+  correct_option: a
+  explanation: A controller cannot assume its own initial installation.
+- id: ats064-section-060-q09
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Reason about identity, ownership and external systems.
+  source_readings:
+  - sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
+  prompt: Should a source-reading credential automatically have target administrator authority?
+  options:
+  - id: a
+    text: Yes; every repository reader must control every cluster.
+    explanation: That grants unrelated authority.
+  - id: b
+    text: Yes; a branch name proves administrative identity.
+    explanation: A name is not an access credential.
+  - id: c
+    text: No; source and target roles should be scoped separately.
+    explanation: They cross different access boundaries.
+  correct_option: c
+  explanation: They cross different access boundaries.
