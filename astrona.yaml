@@ -1,8 +1,9 @@
-# Preparation scaffold. Technical pages stay draft until authoring and review.
+# Reading-only content; YAML knowledge checks have a separate index.
 training:
   id: ATS064
   title: 'CGOA: GitOps Terminology'
-  description: Preparation scaffold for GitOps Terminology. Lessons and environments are planned.
+  description: 'Detailed reading material and reusable YAML knowledge checks for CGOA: GitOps Terminology.
+    Technical content remains draft. No labs or playgrounds.'
   certification:
     name: Certified GitOps Associate
     code: CGOA
@@ -22,7 +23,7 @@ training:
 modules:
 - id: module-intro
   title: Introduction
-  description: Planned introduction and authoring status.
+  description: Audience, reading method and review process.
   content:
   - type: reading
     title: Introduction
@@ -38,91 +39,154 @@ modules:
     path: sections/intro/course-03-how-this-course-is-made.md
 - id: module-010
   title: Continuous
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for Continuous.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-010/README.md
   - type: reading
     title: Continuous
+    path: sections/section-010/README.md
+  - type: reading
+    title: Continuous Operation, Intervals And Recovery From Missed Events
     path: sections/section-010/module-01/course.md
+  - type: reading
+    title: Continuous Operation, Intervals And Recovery From Missed Events
+    path: sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
+  - type: reading
+    title: Summary
+    path: sections/section-010/module-01/course-02-summary.md
 - id: module-020
   title: Declarative Description
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for Declarative Description.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-020/README.md
   - type: reading
     title: Declarative Description
+    path: sections/section-020/README.md
+  - type: reading
+    title: Declarative Descriptions And Implementation Independence
     path: sections/section-020/module-01/course.md
+  - type: reading
+    title: Declarative Descriptions And Implementation Independence
+    path: sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
+  - type: reading
+    title: Summary
+    path: sections/section-020/module-01/course-02-summary.md
 - id: module-030
   title: Desired State
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for Desired State.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-030/README.md
   - type: reading
     title: Desired State
+    path: sections/section-030/README.md
+  - type: reading
+    title: Desired State, Managed Scope And Persistent Application Data
     path: sections/section-030/module-01/course.md
+  - type: reading
+    title: Desired State, Managed Scope And Persistent Application Data
+    path: sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
+  - type: reading
+    title: Summary
+    path: sections/section-030/module-01/course-02-summary.md
 - id: module-040
   title: State Drift
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for State Drift.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-040/README.md
   - type: reading
     title: State Drift
+    path: sections/section-040/README.md
+  - type: reading
+    title: State Drift, Ownership And Meaningful Comparison
     path: sections/section-040/module-01/course.md
+  - type: reading
+    title: State Drift, Ownership And Meaningful Comparison
+    path: sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
+  - type: reading
+    title: Summary
+    path: sections/section-040/module-01/course-02-summary.md
 - id: module-050
   title: State Reconciliation
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for State Reconciliation.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-050/README.md
   - type: reading
     title: State Reconciliation
+    path: sections/section-050/README.md
+  - type: reading
+    title: Observe, Compare, Act And Report
     path: sections/section-050/module-01/course.md
+  - type: reading
+    title: Observe, Compare, Act And Report
+    path: sections/section-050/module-01/course-01-observe-compare-act-and-report.md
+  - type: reading
+    title: Summary
+    path: sections/section-050/module-01/course-02-summary.md
 - id: module-060
   title: GitOps Managed Software System
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for GitOps Managed Software System.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-060/README.md
   - type: reading
     title: GitOps Managed Software System
+    path: sections/section-060/README.md
+  - type: reading
+    title: Managed Runtimes, Agents And Policy Boundaries
     path: sections/section-060/module-01/course.md
+  - type: reading
+    title: Managed Runtimes, Agents And Policy Boundaries
+    path: sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
+  - type: reading
+    title: Summary
+    path: sections/section-060/module-01/course-02-summary.md
 - id: module-070
   title: State Store
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for State Store.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-070/README.md
   - type: reading
     title: State Store
+    path: sections/section-070/README.md
+  - type: reading
+    title: State Store Identity, History And Access Policy
     path: sections/section-070/module-01/course.md
+  - type: reading
+    title: State Store Identity, History And Access Policy
+    path: sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
+  - type: reading
+    title: Summary
+    path: sections/section-070/module-01/course-02-summary.md
 - id: module-080
   title: Feedback Loop
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for Feedback Loop.
+  draft: true
   content:
-  - type: reading
-    title: Section Overview
-    path: sections/section-080/README.md
   - type: reading
     title: Feedback Loop
+    path: sections/section-080/README.md
+  - type: reading
+    title: Outcome Feedback, Health And Control Decisions
     path: sections/section-080/module-01/course.md
+  - type: reading
+    title: Outcome Feedback, Health And Control Decisions
+    path: sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
+  - type: reading
+    title: Summary
+    path: sections/section-080/module-01/course-02-summary.md
 - id: module-090
   title: Rollback
-  description: Planned coverage of this curriculum objective.
+  description: Developed reading and reasoning for Rollback.
+  draft: true
   content:
   - type: reading
-    title: Section Overview
+    title: Rollback
     path: sections/section-090/README.md
   - type: reading
-    title: Rollback
+    title: Reverting Intent, Artifact Compatibility And Data Recovery
     path: sections/section-090/module-01/course.md
+  - type: reading
+    title: Reverting Intent, Artifact Compatibility And Data Recovery
+    path: sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
+  - type: reading
+    title: Summary
+    path: sections/section-090/module-01/course-02-summary.md

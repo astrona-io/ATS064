@@ -1,0 +1,186 @@
+schema_version: 1
+kind: question_bank
+id: ats064-domain-review
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material; not official examination questions.
+scope:
+  type: domain
+  id: domain-review
+  title: GitOps Terminology
+placement:
+  position: after
+  reading: sections/section-090/module-01/course-02-summary.md
+questions:
+- id: ats064-domain-review-q01
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain immutable desired-state versions and retrievable history.
+  source_readings:
+  - sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
+  prompt: What should a state store preserve?
+  options:
+  - id: a
+    text: Every production password in public plaintext.
+    explanation: History is not a reason to disclose secrets.
+  - id: b
+    text: Retrievable identified versions of desired declarations.
+    explanation: Agents and reviewers need authoritative history.
+  - id: c
+    text: Only transient webhook payloads.
+    explanation: Those do not establish a durable state history.
+  correct_option: b
+  explanation: Agents and reviewers need authoritative history.
+- id: ats064-domain-review-q02
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish a selected revision from a mutable reference.
+  source_readings:
+  - sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
+  prompt: How does a branch name differ from a commit identity?
+  options:
+  - id: a
+    text: The branch can move while the commit identifies a particular version.
+    explanation: Selection and content identity are different.
+  - id: b
+    text: Every branch name always identifies one version forever.
+    explanation: Branches commonly advance.
+  - id: c
+    text: Commit identity grants cluster authority.
+    explanation: Identity is not permission.
+  correct_option: a
+  explanation: Selection and content identity are different.
+- id: ats064-domain-review-q03
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about review, audit and source credential scope.
+  source_readings:
+  - sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
+  prompt: Why control write access to desired state?
+  options:
+  - id: a
+    text: Readers must always be administrators.
+    explanation: Reading and writing are different roles.
+  - id: b
+    text: Audit is unnecessary when files are text.
+    explanation: Text changes still need accountability.
+  - id: c
+    text: Approved changes can direct what management agents apply.
+    explanation: Source authority has operational consequences.
+  correct_option: c
+  explanation: Source authority has operational consequences.
+- id: ats064-domain-review-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish desired-state acceptance from runtime outcome.
+  source_readings:
+  - sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
+  prompt: What is useful feedback after applying desired state?
+  options:
+  - id: a
+    text: Only a guarantee that every request succeeded.
+    explanation: Such a guarantee is unsupported.
+  - id: b
+    text: The evaluated revision and observed result or blocked condition.
+    explanation: It connects intent to outcome.
+  - id: c
+    text: Only the repository's decorative name.
+    explanation: That does not establish progress.
+  correct_option: b
+  explanation: It connects intent to outcome.
+- id: ats064-domain-review-q05
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain feedback used by agents and human operators.
+  source_readings:
+  - sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
+  prompt: Why distinguish apply success from application health?
+  options:
+  - id: a
+    text: The target can accept configuration while runtime dependencies still fail.
+    explanation: The outcomes occur at different boundaries.
+  - id: b
+    text: Accepted resources can never fail later.
+    explanation: They can fail to become ready.
+  - id: c
+    text: Health is only a font choice.
+    explanation: Health concerns operation.
+  correct_option: a
+  explanation: The outcomes occur at different boundaries.
+- id: ats064-domain-review-q06
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about stale status and actionable failure signals.
+  source_readings:
+  - sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
+  prompt: A status has not updated for days. What should be checked?
+  options:
+  - id: a
+    text: Assume the latest revision definitely converged.
+    explanation: The status does not establish that.
+  - id: b
+    text: Rename all desired resources immediately.
+    explanation: That does not locate the stale reporting boundary.
+  - id: c
+    text: Its freshness and whether the agent is still evaluating intent.
+    explanation: Stale evidence can mislead.
+  correct_option: c
+  explanation: Stale evidence can mislead.
+- id: ats064-domain-review-q07
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain rollback as a controlled desired-state change.
+  source_readings:
+  - sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
+  prompt: What is a GitOps-consistent configuration rollback?
+  options:
+  - id: a
+    text: Deleting all source history.
+    explanation: That removes useful evidence.
+  - id: b
+    text: A reviewed change to authoritative desired state selecting the intended recovery version.
+    explanation: The agent should follow the approved source.
+  - id: c
+    text: Only a target edit that leaves conflicting desired state unchanged.
+    explanation: An active agent may overwrite that edit.
+  correct_option: b
+  explanation: The agent should follow the approved source.
+- id: ats064-domain-review-q08
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish configuration reversal from persistent-data restoration.
+  source_readings:
+  - sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
+  prompt: Why might an earlier application image fail after a rollback?
+  options:
+  - id: a
+    text: The current database schema may no longer be compatible.
+    explanation: Artifact and persistent-data lifecycles differ.
+  - id: b
+    text: Every previous image is always compatible forever.
+    explanation: Compatibility must be assessed.
+  - id: c
+    text: A commit automatically restores every database row.
+    explanation: Configuration history is not a data backup.
+  correct_option: a
+  explanation: Artifact and persistent-data lifecycles differ.
+- id: ats064-domain-review-q09
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Identify compatibility and irreversible side-effect limits.
+  source_readings:
+  - sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
+  prompt: What should follow selecting a recovery version?
+  options:
+  - id: a
+    text: Assuming every earlier side effect disappeared.
+    explanation: External effects may be irreversible.
+  - id: b
+    text: Removing all operational diagnostics.
+    explanation: Diagnostics support recovery assessment.
+  - id: c
+    text: Evidence of convergence and relevant application health.
+    explanation: Selection alone does not establish success.
+  correct_option: c
+  explanation: Selection alone does not establish success.
