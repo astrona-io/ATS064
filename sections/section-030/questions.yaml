@@ -1,0 +1,187 @@
+schema_version: 1
+kind: question_bank
+id: ats064-section-030
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material; not official examination questions.
+scope:
+  type: section
+  id: section-030
+  title: 'Checkpoint: Continuous Operation, Intervals And Recovery From Missed Events, Declarative Descriptions
+    And Implementation Independence, Desired State, Managed Scope And Persistent Application Data'
+placement:
+  position: after
+  reading: sections/section-030/module-01/course-02-summary.md
+questions:
+- id: ats064-section-030-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain continuous reconciliation without claiming instantaneous execution.
+  source_readings:
+  - sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
+  prompt: What does continuous mean in this GitOps context?
+  options:
+  - id: a
+    text: Only one deployment is ever evaluated.
+    explanation: One-time work does not establish continued management.
+  - id: b
+    text: Reconciliation continues over time.
+    explanation: It does not require zero delay.
+  - id: c
+    text: Every state change is corrected instantly.
+    explanation: Observation and action take time.
+  correct_option: b
+  explanation: It does not require zero delay.
+- id: ats064-section-030-q02
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Distinguish repeated control behavior from a one-time deployment job.
+  source_readings:
+  - sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
+  prompt: Why retain recoverable evaluation when using event notifications?
+  options:
+  - id: a
+    text: Notifications can be missed or delayed.
+    explanation: The agent still needs access to authoritative state.
+  - id: b
+    text: Every webhook is a complete permanent state store.
+    explanation: A notification is not the state history.
+  - id: c
+    text: Events automatically grant target permissions.
+    explanation: Authority remains a separate contract.
+  correct_option: a
+  explanation: The agent still needs access to authoritative state.
+- id: ats064-section-030-q03
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Reason about missed events, retries and convergence time.
+  source_readings:
+  - sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
+  prompt: A job applied manifests once and exited. What remains unproven?
+  options:
+  - id: a
+    text: Whether the job ever ran.
+    explanation: Its completed apply is already evidence of some execution.
+  - id: b
+    text: Whether YAML can contain desired state.
+    explanation: It can, but that does not create a controller.
+  - id: c
+    text: An ongoing process observes and corrects later divergence.
+    explanation: Deployment success is not continuous management.
+  correct_option: c
+  explanation: Deployment success is not continuous management.
+- id: ats064-section-030-q04
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Distinguish a desired-state description from an imperative procedure.
+  source_readings:
+  - sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
+  prompt: Which statement is declarative?
+  options:
+  - id: a
+    text: Retry until the terminal turns green.
+    explanation: That does not describe the desired system condition.
+  - id: b
+    text: The service should have three managed replicas.
+    explanation: It states an intended condition.
+  - id: c
+    text: Run these five commands in this exact order.
+    explanation: That prescribes a procedure.
+  correct_option: b
+  explanation: It states an intended condition.
+- id: ats064-section-030-q05
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain required scope and stable references in declarations.
+  source_readings:
+  - sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
+  prompt: Why identify artifact inputs precisely?
+  options:
+  - id: a
+    text: Mutable references can change behavior without changing the declaration.
+    explanation: Reconstruction needs known inputs.
+  - id: b
+    text: Every artifact tag is immutable automatically.
+    explanation: Many tags can move.
+  - id: c
+    text: Precise references remove every possible failure.
+    explanation: They identify inputs but do not guarantee operation.
+  correct_option: a
+  explanation: Reconstruction needs known inputs.
+- id: ats064-section-030-q06
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Reason about hidden defaults and external dependencies.
+  source_readings:
+  - sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
+  prompt: Who performs the actions needed to implement a declaration?
+  options:
+  - id: a
+    text: The text file directly executes itself.
+    explanation: A consumer must interpret it.
+  - id: b
+    text: The browser's display title.
+    explanation: Presentation is not implementation.
+  - id: c
+    text: The management implementation or agent.
+    explanation: Description and implementation are distinct.
+  correct_option: c
+  explanation: Description and implementation are distinct.
+- id: ats064-section-030-q07
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain desired state as sufficient managed configuration.
+  source_readings:
+  - sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
+  prompt: What most directly belongs to desired application configuration?
+  options:
+  - id: a
+    text: Every transient controller log line.
+    explanation: Diagnostics are observed evidence.
+  - id: b
+    text: The intended artifact, environment settings and managed resource relationships.
+    explanation: These define intended operation.
+  - id: c
+    text: Every historical customer transaction by default.
+    explanation: Persistent business data is normally a separate lifecycle.
+  correct_option: b
+  explanation: These define intended operation.
+- id: ats064-section-030-q08
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Distinguish desired configuration from persistent business data.
+  source_readings:
+  - sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
+  prompt: Why is reverting a declaration not a database restore?
+  options:
+  - id: a
+    text: Configuration history and business-data history have different contracts.
+    explanation: A declaration cannot recreate every changed row.
+  - id: b
+    text: Git never stores any text.
+    explanation: Git stores versioned text and other content.
+  - id: c
+    text: Every database is stateless.
+    explanation: Databases commonly persist state.
+  correct_option: a
+  explanation: A declaration cannot recreate every changed row.
+- id: ats064-section-030-q09
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Reason about references, generated fields and behavioral reconstruction.
+  source_readings:
+  - sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
+  prompt: Should generated status fields automatically become authoritative desired input?
+  options:
+  - id: a
+    text: Yes, because every visible field expresses user intent.
+    explanation: Generated observations can differ from intent.
+  - id: b
+    text: Yes, because status fields contain all business data.
+    explanation: They do not provide a complete data history.
+  - id: c
+    text: No; status describes observed implementation conditions.
+    explanation: Intent and observation are distinct.
+  correct_option: c
+  explanation: Intent and observation are distinct.

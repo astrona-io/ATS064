@@ -1,30 +1,31 @@
-# Curriculum And Authoring Plan
+# Curriculum Coverage
 
 Exam: Certified GitOps Associate (CGOA). Domain: GitOps Terminology (20%).
-Source: [official curriculum](https://training.linuxfoundation.org/certification/certified-gitops-associate-cgoa/), checked 2026-10-10.
-Objectives are attributed to The Linux Foundation and CNCF.
 
-Preparation scaffold; content authoring has not started.
+The [official objectives](https://training.linuxfoundation.org/certification/certified-gitops-associate-cgoa/) were checked on 2026-10-11. Teaching structure is independently authored and does not add official requirements.
 
-| Section | Official objective | Authoring status |
+| Section | Official objective | Modules |
 | --- | --- | --- |
-| 010 | Continuous | Planned |
-| 020 | Declarative Description | Planned |
-| 030 | Desired State | Planned |
-| 040 | State Drift | Planned |
-| 050 | State Reconciliation | Planned |
-| 060 | GitOps Managed Software System | Planned |
-| 070 | State Store | Planned |
-| 080 | Feedback Loop | Planned |
-| 090 | Rollback | Planned |
+| 010 | Continuous | 1 |
+| 020 | Declarative Description | 1 |
+| 030 | Desired State | 1 |
+| 040 | State Drift | 1 |
+| 050 | State Reconciliation | 1 |
+| 060 | GitOps Managed Software System | 1 |
+| 070 | State Store | 1 |
+| 080 | Feedback Loop | 1 |
+| 090 | Rollback | 1 |
 
-Before building content:
+| Section / module | Module | Teaching files |
+| --- | --- | --- |
+| 010 / 01 | Continuous Operation, Intervals And Recovery From Missed Events | Continuous Operation, Intervals And Recovery From Missed Events |
+| 020 / 01 | Declarative Descriptions And Implementation Independence | Declarative Descriptions And Implementation Independence |
+| 030 / 01 | Desired State, Managed Scope And Persistent Application Data | Desired State, Managed Scope And Persistent Application Data |
+| 040 / 01 | State Drift, Ownership And Meaningful Comparison | State Drift, Ownership And Meaningful Comparison |
+| 050 / 01 | Observe, Compare, Act And Report | Observe, Compare, Act And Report |
+| 060 / 01 | Managed Runtimes, Agents And Policy Boundaries | Managed Runtimes, Agents And Policy Boundaries |
+| 070 / 01 | State Store Identity, History And Access Policy | State Store Identity, History And Access Policy |
+| 080 / 01 | Outcome Feedback, Health And Control Decisions | Outcome Feedback, Health And Control Decisions |
+| 090 / 01 | Reverting Intent, Artifact Compatibility And Data Recovery | Reverting Intent, Artifact Compatibility And Data Recovery |
 
-- Recheck the curriculum and refine broad objectives into teachable modules.
-- Choose and record the environment versions and any image dependencies.
-- Write the introduction and remove placeholder notices only when it is ready.
-- Build short parts and runnable playgrounds; add graded labs where appropriate.
-- Add quizzes and a capstone when the completed domain needs them.
-- Check real outputs and reference solutions, and update `astrona.yaml`.
-- Remove `draft: true` from completed technical pages after review.
-- Publish the course only after the maintainer approves the completed content.
+AUTHORING.yaml records measurable goals and adaptation sources. Every objective retains its section ID. All technical readings remain draft. Question banks are separate from the reading manifest and follow their declared summaries. No labs, playgrounds or runtime validation are included.
