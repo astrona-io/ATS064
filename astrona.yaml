@@ -40,7 +40,7 @@ modules:
 - id: module-010
   title: Continuous
   description: Developed reading and reasoning for Continuous.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Continuous
@@ -57,7 +57,7 @@ modules:
 - id: module-020
   title: Declarative Description
   description: Developed reading and reasoning for Declarative Description.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Declarative Description
@@ -74,7 +74,7 @@ modules:
 - id: module-030
   title: Desired State
   description: Developed reading and reasoning for Desired State.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Desired State
@@ -91,7 +91,7 @@ modules:
 - id: module-040
   title: State Drift
   description: Developed reading and reasoning for State Drift.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: State Drift
@@ -108,7 +108,7 @@ modules:
 - id: module-050
   title: State Reconciliation
   description: Developed reading and reasoning for State Reconciliation.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: State Reconciliation
@@ -125,7 +125,7 @@ modules:
 - id: module-060
   title: GitOps Managed Software System
   description: Developed reading and reasoning for GitOps Managed Software System.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: GitOps Managed Software System
@@ -142,7 +142,7 @@ modules:
 - id: module-070
   title: State Store
   description: Developed reading and reasoning for State Store.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: State Store
@@ -159,7 +159,7 @@ modules:
 - id: module-080
   title: Feedback Loop
   description: Developed reading and reasoning for Feedback Loop.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Feedback Loop
@@ -176,7 +176,7 @@ modules:
 - id: module-090
   title: Rollback
   description: Developed reading and reasoning for Rollback.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Rollback
