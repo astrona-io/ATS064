@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Managed System (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-060
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: bootstrap-in-platform
+      description: "platform holds the namespace, ServiceAccount, Role and RoleBinding for gitops-agent, committed and applied"
+      type: file
+      source: validation/validate-bootstrap-in-platform.sh
+      hint: "Save the four bootstrap manifests under platform, commit and apply them."
+    - name: agent-permissions
+      description: "The agent may deliver and read pods in starfleet but may not delete pods, read secrets or change roles"
+      type: file
+      source: validation/validate-agent-permissions.sh
+      hint: "Add get, list and watch on pods to the Role. Do not add delete, secrets or any rbac resource."
+    - name: no-cluster-wide-grant
+      description: "No ClusterRoleBinding or wildcard Role gives gitops-agent cluster-wide or wildcard access"
+      type: file
+      source: validation/validate-no-cluster-wide-grant.sh
+      hint: "Use a Role and a RoleBinding in starfleet. Remove any ClusterRoleBinding for the agent."
+    - name: pod-security-enforced
+      description: "The namespace starfleet enforces the baseline Pod Security level, and the label is declared in Git"
+      type: file
+      source: validation/validate-pod-security-enforced.sh
+      hint: "Add the label pod-security.kubernetes.io/enforce: baseline to the starfleet Namespace in apps/namespaces.yaml and apply it."
+    - name: probe-compliant
+      description: "probe runs without a privileged container, with every replica updated and available"
+      type: file
+      source: validation/validate-probe-compliant.sh
+      hint: "Remove privileged: true from the probe manifest, apply it and wait for the rollout."
+    - name: matches-and-committed
+      description: "kubectl diff on apps and platform shows no difference and the work is committed on top of the seed"
+      type: file
+      source: validation/validate-matches-and-committed.sh
+      hint: "Run kubectl diff -R -f apps and kubectl diff -R -f platform, and commit your files."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

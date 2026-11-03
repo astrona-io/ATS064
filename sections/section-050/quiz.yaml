@@ -1,0 +1,197 @@
+# Knowledge check for section-050. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-050
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-050
+  title: "Reconciliation"
+questions:
+  - id: ats064-050-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe the reconciliation loop"
+    source_readings:
+      - sections/section-050/module-01/course-01-the-reconciliation-loop.md
+    prompt: "Which list gives the steps of one reconciliation pass in the right order?"
+    options:
+      - id: a
+        text: "Act, observe, compare."
+        explanation: "A controller must know the difference before it acts."
+      - id: b
+        text: "Observe the actual state, compare it with the desired state, act on the difference."
+        explanation: "Correct. The result of the action is checked by the next pass."
+      - id: c
+        text: "Compare, deploy, delete."
+        explanation: "These are not the steps of the loop."
+      - id: d
+        text: "Build, test, release."
+        explanation: "That is a delivery pipeline and not a reconciliation pass."
+    correct_option: b
+    explanation: "Correct. The result of the action is checked by the next pass."
+
+  - id: ats064-050-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define convergence"
+    source_readings:
+      - sections/section-050/module-01/course-01-the-reconciliation-loop.md
+    prompt: "When has a system converged?"
+    options:
+      - id: a
+        text: "When kubectl apply prints configured."
+        explanation: "That means the API server accepted the object."
+      - id: b
+        text: "When the commit is merged."
+        explanation: "A merge changes the desired state only."
+      - id: c
+        text: "When the actual state equals the desired state, so another pass has nothing to do."
+        explanation: "Correct. Convergence is a property of the actual state."
+      - id: d
+        text: "When the controller has run once."
+        explanation: "One pass may not be enough."
+    correct_option: c
+    explanation: "Correct. Convergence is a property of the actual state."
+
+  - id: ats064-050-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain level-triggered behavior"
+    source_readings:
+      - sections/section-050/module-01/course-01-the-reconciliation-loop.md
+    prompt: "A controller is down while a pod is deleted, and it starts again later. Why does it still create the replacement?"
+    options:
+      - id: a
+        text: "It is level-triggered: it compares the current state with the desired state on each pass, and does not depend on having seen the delete event."
+        explanation: "Correct. A lost event does not hide a difference."
+      - id: b
+        text: "It replays every event since the beginning of time."
+        explanation: "Controllers read the current state."
+      - id: c
+        text: "The kubelet creates the pod."
+        explanation: "The ReplicaSet controller creates it."
+      - id: d
+        text: "It does not create the pod until a person approves it."
+        explanation: "Controllers act without approval."
+    correct_option: a
+    explanation: "Correct. A lost event does not hide a difference."
+
+  - id: ats064-050-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain idempotent actions"
+    source_readings:
+      - sections/section-050/module-01/course-01-the-reconciliation-loop.md
+    prompt: "Why do controllers express actions as targets such as \"have two pods\" and not as increments such as \"add one pod\"?"
+    options:
+      - id: a
+        text: "Increments are not allowed by the API server."
+        explanation: "The API server has no such rule."
+      - id: b
+        text: "Targets run faster."
+        explanation: "Speed is not the reason."
+      - id: c
+        text: "Increments cannot be logged."
+        explanation: "They can be logged."
+      - id: d
+        text: "A pass can be repeated or restarted, and a target gives the same result when applied again."
+        explanation: "Correct. An increment would add pods on every repeat."
+    correct_option: d
+    explanation: "Correct. An increment would add pods on every repeat."
+
+  - id: ats064-050-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Classify a rejected change"
+    source_readings:
+      - sections/section-050/module-01/course-02-when-reconciliation-fails.md
+    prompt: "A ConfigMap manifest has the number 3 where a string is needed. Where does the delivery fail?"
+    options:
+      - id: a
+        text: "It is blocked by a quota."
+        explanation: "A quota limits resource use, not field types."
+      - id: b
+        text: "It becomes unhealthy: the pods crash."
+        explanation: "A ConfigMap has no pods."
+      - id: c
+        text: "It is rejected: the API server refuses the object, and apply reports an error."
+        explanation: "Correct. The change never reaches the cluster state."
+      - id: d
+        text: "It converges with the number replaced by zero."
+        explanation: "The object is not stored."
+    correct_option: c
+    explanation: "Correct. The change never reaches the cluster state."
+
+  - id: ats064-050-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read an image pull failure"
+    source_readings:
+      - sections/section-050/module-01/course-02-when-reconciliation-fails.md
+    prompt: "The new pod of a Deployment shows ImagePullBackOff, and the old pods still run. What is the most likely cause?"
+    options:
+      - id: a
+        text: "The ResourceQuota is exhausted."
+        explanation: "A quota failure creates no pod, so there is no pod status."
+      - id: b
+        text: "The image name or tag in the manifest does not exist or cannot be pulled, and the rolling update kept the old pods running."
+        explanation: "Correct. The rollout is stuck and the service stays up."
+      - id: c
+        text: "The manifest was rejected by the API server."
+        explanation: "The pod exists, so the object was accepted."
+      - id: d
+        text: "The Deployment has too few replicas."
+        explanation: "The replica count does not cause a pull failure."
+    correct_option: b
+    explanation: "Correct. The rollout is stuck and the service stays up."
+
+  - id: ats064-050-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Diagnose a blocked change"
+    source_readings:
+      - sections/section-050/module-01/course-02-when-reconciliation-fails.md
+    prompt: "A Deployment asks for 3 replicas, and 2 pods run. No pod shows an error status, and the namespace has a ResourceQuota of 2 pods. Where is the evidence?"
+    options:
+      - id: a
+        text: "In the status of the third pod."
+        explanation: "The third pod was not created."
+      - id: b
+        text: "In the output of kubectl apply."
+        explanation: "The apply succeeded, because the API server accepted the Deployment."
+      - id: c
+        text: "In the Git log of the repository."
+        explanation: "Git does not show runtime failures."
+      - id: d
+        text: "In the FailedCreate events of the ReplicaSet and in the used and hard values of the quota."
+        explanation: "Correct. The pod was never created, so there is no pod status."
+    correct_option: d
+    explanation: "Correct. The pod was never created, so there is no pod status."
+
+  - id: ats064-050-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Choose the correct fix"
+    source_readings:
+      - sections/section-050/module-01/course-02-when-reconciliation-fails.md
+    prompt: "A bad image tag was committed and applied. Which reaction is correct?"
+    options:
+      - id: a
+        text: "Fix the tag in a new commit, apply it, and wait for rollout status to confirm convergence."
+        explanation: "Correct. The history records the failure and the fix."
+      - id: b
+        text: "Delete the pod so that it is recreated."
+        explanation: "The new pod pulls the same image."
+      - id: c
+        text: "Edit the live Deployment by hand and leave Git as it is."
+        explanation: "That creates drift."
+      - id: d
+        text: "Rewrite the commit and force push, without applying."
+        explanation: "It removes the record, and nothing is delivered."
+    correct_option: a
+    explanation: "Correct. The history records the failure and the fix."
+

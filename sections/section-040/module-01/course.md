@@ -1,23 +1,27 @@
 ---
 draft: true
 exam_objectives:
-- State Drift
+  - Drift
 ---
-# State Drift, Ownership And Meaningful Comparison
+# Configuration Drift
 
-This module develops state Drift, Ownership And Meaningful Comparison. Use the explanations to connect intended behavior with responsible components and observable evidence.
+This module explains what drift is, where it comes from, how it is detected and what a team can do with it. You create drift on a real cluster, read the difference, and then choose between reverting the cluster and adopting the change into Git. You also see how field ownership decides which tool may change which field.
 
 ## Learning Goals
 
-- Distinguish intentional desired-state change from actual-state drift.
-- Explain comparison scope, defaults and ignored differences.
-- Reason about competing writers and emergency modifications.
+- Define drift and name its common sources.
+- Detect drift by comparing the desired state with the live state.
+- Choose between reverting, adopting and excluding a drifted field.
+- Explain field ownership and what server-side apply does with a conflict.
 
 ## Before You Start
 
-Examples illustrate declared relationships and reasoning. No execution environment is required or claimed.
+You should know what a Deployment is, how `kubectl apply` compares a manifest with a live object, and basic `git` commands. The hands-on part uses a playground with a kind cluster, `kubectl`, `git` and `jq`. Technical terms are defined where they first appear.
 
 ## Reading Order
 
-1. State Drift, Ownership And Meaningful Comparison
-2. Summary
+1. What Drift Is And How To Detect It
+2. Reverting, Adopting And Field Ownership
+3. Summary
+
+<!-- astrona:playground -->

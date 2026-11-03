@@ -1,0 +1,197 @@
+# Knowledge check for section-020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-020
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Declarative Description"
+questions:
+  - id: ats064-020-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Distinguish a declarative description from an imperative procedure"
+    source_readings:
+      - sections/section-020/module-01/course-01-declarative-versus-imperative-descriptions.md
+    prompt: "Which item is a declarative description?"
+    options:
+      - id: a
+        text: "A shell script that runs kubectl create and then kubectl scale."
+        explanation: "A script lists steps in an order. It is a procedure, even if it is stored in Git."
+      - id: b
+        text: "A manifest that states a Deployment named scout with three replicas and a given image."
+        explanation: "Correct. It states the result and leaves the steps to the tool and the controller."
+      - id: c
+        text: "A runbook page that tells an engineer which commands to type."
+        explanation: "A runbook is a procedure written for a person."
+      - id: d
+        text: "A pipeline job that runs on every merge."
+        explanation: "The job is a trigger and a procedure. It is not a description of a result."
+    correct_option: b
+    explanation: "Correct. It states the result and leaves the steps to the tool and the controller."
+
+  - id: ats064-020-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain idempotence of kubectl apply"
+    source_readings:
+      - sections/section-020/module-01/course-01-declarative-versus-imperative-descriptions.md
+    prompt: "An agent runs kubectl apply -f deployment.yaml on every pass. The cluster already matches the file. What does the command do?"
+    options:
+      - id: a
+        text: "It deletes the Deployment and creates it again."
+        explanation: "apply does not recreate an object that matches."
+      - id: b
+        text: "It fails because the object already exists."
+        explanation: "That is the behavior of kubectl create."
+      - id: c
+        text: "It compares the manifest with the live object, finds no difference and changes nothing."
+        explanation: "Correct. Applying a manifest again leaves the same result."
+      - id: d
+        text: "It scales the Deployment by one replica."
+        explanation: "apply does not change any field that the manifest states with the same value."
+    correct_option: c
+    explanation: "Correct. Applying a manifest again leaves the same result."
+
+  - id: ats064-020-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Reject a script in Git as a declaration"
+    source_readings:
+      - sections/section-020/module-01/course-01-declarative-versus-imperative-descriptions.md
+    prompt: "A repository stores scripts/deploy.sh, which runs kubectl create deployment. A colleague says the repository is declarative because everything is in Git. What is the best reply?"
+    options:
+      - id: a
+        text: "Git stores the history of the script, but the script is a procedure that cannot be compared with the cluster or safely run again."
+        explanation: "Correct. Storing a procedure in Git gives it a history. It does not make it a statement of a result."
+      - id: b
+        text: "Correct, because anything in Git is declarative."
+        explanation: "The place where a file lives does not decide whether it is declarative."
+      - id: c
+        text: "Git cannot store shell scripts."
+        explanation: "Git stores any text file."
+      - id: d
+        text: "Scripts are declarative only when they use kubectl apply with a here-document."
+        explanation: "A script that runs commands is still a procedure, whatever command it uses."
+    correct_option: a
+    explanation: "Correct. Storing a procedure in Git gives it a history. It does not make it a statement of a result."
+
+  - id: ats064-020-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain implementation independence and its limits"
+    source_readings:
+      - sections/section-020/module-01/course-01-declarative-versus-imperative-descriptions.md
+    prompt: "A team applies the same Deployment manifest with kubectl, with a pipeline step and with an in-cluster agent. What does this show?"
+    options:
+      - id: a
+        text: "The manifest works on every platform, including systems without Kubernetes."
+        explanation: "A Deployment manifest names a Kubernetes apiVersion and kind."
+      - id: b
+        text: "The three tools produce different results from the same manifest."
+        explanation: "All three send the same object to the API server."
+      - id: c
+        text: "The manifest changes itself to fit each tool."
+        explanation: "A manifest is a static file."
+      - id: d
+        text: "The description does not name the tool that applies it, but it still depends on the Kubernetes API that interprets it."
+        explanation: "Correct. A declaration is independent of the tool, not of the platform."
+    correct_option: d
+    explanation: "Correct. A declaration is independent of the tool, not of the platform."
+
+  - id: ats064-020-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Identify the scope problem of a manifest without a namespace"
+    source_readings:
+      - sections/section-020/module-01/course-02-scope-references-defaults-and-dependencies.md
+    prompt: "A manifest for a namespaced object has no metadata.namespace. An engineer applies it with kubectl, and the agent applies it from another environment. What is the risk?"
+    options:
+      - id: a
+        text: "The API server rejects the manifest because the namespace is required."
+        explanation: "The API server accepts it and uses the namespace of the request."
+      - id: b
+        text: "The object is created in every namespace."
+        explanation: "The object is created in one namespace."
+      - id: c
+        text: "The object lands in the namespace of the current context, which can differ between the two, so the file means different things."
+        explanation: "Correct. A complete declaration states its scope."
+      - id: d
+        text: "The object becomes cluster-scoped."
+        explanation: "The scope of a kind does not change."
+    correct_option: c
+    explanation: "Correct. A complete declaration states its scope."
+
+  - id: ats064-020-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find hidden defaults"
+    source_readings:
+      - sections/section-020/module-01/course-02-scope-references-defaults-and-dependencies.md
+    prompt: "A Deployment manifest uses the image ghcr.io/stefanprodan/podinfo without a tag. What is the problem?"
+    options:
+      - id: a
+        text: "The API server rejects an image without a tag."
+        explanation: "The API server accepts it and uses latest."
+      - id: b
+        text: "The tag defaults to latest, so the running image can change although the manifest did not change."
+        explanation: "Correct. A default hides a decision outside the file."
+      - id: c
+        text: "The pod always runs the oldest image of the repository."
+        explanation: "The default is the tag latest, not the oldest."
+      - id: d
+        text: "There is no problem, because the registry stores one image per name."
+        explanation: "A registry stores many tags, and latest moves."
+    correct_option: b
+    explanation: "Correct. A default hides a decision outside the file."
+
+  - id: ats064-020-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Diagnose a missing dependency"
+    source_readings:
+      - sections/section-020/module-01/course-02-scope-references-defaults-and-dependencies.md
+    prompt: "A Deployment that uses envFrom with a ConfigMap is applied and accepted, but its pods show CreateContainerConfigError. The ConfigMap is not in the repository. What is the cause?"
+    options:
+      - id: a
+        text: "The image tag is wrong."
+        explanation: "A wrong tag causes an image pull error, not a configuration error."
+      - id: b
+        text: "The namespace has no resource quota."
+        explanation: "A quota problem shows as a failure to create pods."
+      - id: c
+        text: "kubectl apply cannot create Deployments with envFrom."
+        explanation: "apply creates the Deployment. The pods fail later."
+      - id: d
+        text: "The API server validated the structure and not the existence of the ConfigMap, and the kubelet could not build the container configuration without it."
+        explanation: "Correct. The dependency is part of the description and must be declared."
+    correct_option: d
+    explanation: "Correct. The dependency is part of the description and must be declared."
+
+  - id: ats064-020-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Choose between a tag and a digest"
+    source_readings:
+      - sections/section-020/module-01/course-02-scope-references-defaults-and-dependencies.md
+    prompt: "A team must guarantee that the same image content is used every time a manifest is applied, even if someone pushes a new image under the same tag. What should the manifest use?"
+    options:
+      - id: a
+        text: "An image digest, because it names the exact content and cannot be moved."
+        explanation: "Correct. A tag can be moved in the registry and a digest cannot."
+      - id: b
+        text: "The tag latest, because it is always the newest."
+        explanation: "latest moves, so the content changes."
+      - id: c
+        text: "No tag, because the registry then chooses the safest image."
+        explanation: "No tag means latest."
+      - id: d
+        text: "A tag with the imagePullPolicy set to Never."
+        explanation: "This changes where the node looks for the image and does not pin the content."
+    correct_option: a
+    explanation: "Correct. A tag can be moved in the registry and a digest cannot."
+

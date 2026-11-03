@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Build A Reconciliation Loop (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-010-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: scout-converged
+      description: "The scout Deployment in the cluster matches the replica count in the latest commit"
+      type: file
+      source: validation/validate-scout-converged.sh
+      hint: "The cluster still runs the old revision. Apply the repository once with kubectl apply -R -f apps and wait for the rollout."
+    - name: script-committed
+      description: "reconcile.sh is executable, has valid syntax and is committed with a clean working tree"
+      type: file
+      source: validation/validate-script-committed.sh
+      hint: "Create reconcile.sh in the repository root, run chmod +x, then git add and git commit it."
+    - name: script-repairs-drift
+      description: "One pass of reconcile.sh returns a manually changed Deployment to the value in Git"
+      type: file
+      source: validation/validate-script-repairs-drift.sh
+      hint: "The script must run kubectl apply -R -f apps on the apps directory next to the script, and it must work when started from another directory. RECONCILE_ONCE=1 makes it stop after one pass."
+    - name: script-loops-and-logs
+      description: "reconcile.sh stops after one pass with RECONCILE_ONCE, loops otherwise and prints the Git revision"
+      type: file
+      source: validation/validate-script-loops-and-logs.sh
+      hint: "Use a while loop with sleep \"$INTERVAL\", print git rev-parse --short HEAD in every pass and exit when RECONCILE_ONCE is set."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete or scale a Deployment to zero while you work."
+
+teardown:
+  keepCluster: false

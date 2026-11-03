@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Declarative Description (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-020
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: scope-declared
+      description: "The shuttle manifest names the namespace starfleet and no stray shuttle Deployment exists in default"
+      type: file
+      source: validation/validate-scope-declared.sh
+      hint: "Add metadata.namespace to the manifest. If you applied the broken file, delete the Deployment it created in the default namespace."
+    - name: image-pinned
+      description: "The shuttle manifest pins the image tag 6.15.0 and the live pods run it"
+      type: file
+      source: validation/validate-image-pinned.sh
+      hint: "An image without a tag resolves to latest. Write ghcr.io/stefanprodan/podinfo:6.15.0."
+    - name: configmap-declared
+      description: "The ConfigMap shuttle-settings is declared in Git and exists in the cluster with the key MODE"
+      type: file
+      source: validation/validate-configmap-declared.sh
+      hint: "Add apps/configmap-shuttle-settings.yaml with data.MODE and apply it."
+    - name: shuttle-uses-config
+      description: "shuttle reads the ConfigMap and has an available replica"
+      type: file
+      source: validation/validate-shuttle-uses-config.sh
+      hint: "The Deployment refers to shuttle-settings with envFrom. Keep that reference and wait for the pods."
+    - name: committed-on-history
+      description: "The fix is committed on top of the existing history with a clean working tree and passes server-side validation"
+      type: file
+      source: validation/validate-committed-on-history.sh
+      hint: "Make a new commit. Do not rewrite or delete the existing commits."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

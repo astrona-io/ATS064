@@ -1,0 +1,197 @@
+# Knowledge check for section-040. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-040
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-040
+  title: "Drift"
+questions:
+  - id: ats064-040-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define drift"
+    source_readings:
+      - sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+    prompt: "What is drift?"
+    options:
+      - id: a
+        text: "Any change that is committed to Git."
+        explanation: "A committed change updates the desired state."
+      - id: b
+        text: "A difference between the desired state in Git and the live state that nobody decided by changing Git."
+        explanation: "Correct. It is a difference that has no decision behind it."
+      - id: c
+        text: "A pod that restarts after a node failure."
+        explanation: "A restart does not change the declared fields."
+      - id: d
+        text: "The delay between a commit and a pull request merge."
+        explanation: "That delay is part of the review process."
+    correct_option: b
+    explanation: "Correct. It is a difference that has no decision behind it."
+
+  - id: ats064-040-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name a source of drift"
+    source_readings:
+      - sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+    prompt: "Which action is a common source of drift?"
+    options:
+      - id: a
+        text: "A commit that changes replicas in the manifest."
+        explanation: "That changes the desired state, so it is not drift."
+      - id: b
+        text: "A merge request that is still open."
+        explanation: "An open request changes nothing in the cluster."
+      - id: c
+        text: "An engineer runs kubectl scale on a Deployment that Git manages."
+        explanation: "Correct. The live value changes and Git does not."
+      - id: d
+        text: "A new tag on an existing commit."
+        explanation: "A tag does not change any object."
+    correct_option: c
+    explanation: "Correct. The live value changes and Git does not."
+
+  - id: ats064-040-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the exit status of kubectl diff"
+    source_readings:
+      - sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+    prompt: "A script runs kubectl diff -R -f apps and gets exit status 1. What does it mean?"
+    options:
+      - id: a
+        text: "Differences were found between the manifests and the live objects."
+        explanation: "Correct. Status 0 means no difference and a value above 1 means the command failed."
+      - id: b
+        text: "The command failed and no comparison was made."
+        explanation: "A failure gives a status above 1."
+      - id: c
+        text: "The cluster matches Git."
+        explanation: "That gives status 0."
+      - id: d
+        text: "The API server is not reachable."
+        explanation: "That is a failure, with a higher status."
+    correct_option: a
+    explanation: "Correct. Status 0 means no difference and a value above 1 means the command failed."
+
+  - id: ats064-040-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Recognize expected differences"
+    source_readings:
+      - sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+    prompt: "A horizontal pod autoscaler changes spec.replicas of a Deployment. The manifest in Git also states replicas. What is the best handling?"
+    options:
+      - id: a
+        text: "Revert it on every pass."
+        explanation: "The agent and the autoscaler would fight over the field."
+      - id: b
+        text: "Adopt every value the autoscaler sets by committing it."
+        explanation: "The value changes constantly, so commits would never stop."
+      - id: c
+        text: "Delete the autoscaler."
+        explanation: "It does what it was set up to do."
+      - id: d
+        text: "Exclude the field: remove replicas from the manifest so that the autoscaler is the owner."
+        explanation: "Correct. One controller should own each field."
+    correct_option: d
+    explanation: "Correct. One controller should own each field."
+
+  - id: ats064-040-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the limits of a diff"
+    source_readings:
+      - sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+    prompt: "kubectl diff shows no difference, but a ConfigMap that someone created by hand exists in the namespace. Why was it not reported?"
+    options:
+      - id: a
+        text: "ConfigMaps cannot drift."
+        explanation: "ConfigMaps can be changed by hand."
+      - id: b
+        text: "kubectl diff ignores namespaces."
+        explanation: "It compares the objects that the manifests name."
+      - id: c
+        text: "The comparison starts from the manifests, and an object without a manifest is not compared."
+        explanation: "Correct. A clean diff means everything Git states is true, not that nothing else exists."
+      - id: d
+        text: "The ConfigMap is exactly equal to the manifests."
+        explanation: "No manifest exists for it."
+    correct_option: c
+    explanation: "Correct. A clean diff means everything Git states is true, not that nothing else exists."
+
+  - id: ats064-040-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose between revert and adopt"
+    source_readings:
+      - sections/section-040/module-01/course-02-reverting-adopting-and-field-ownership.md
+    prompt: "During an incident an engineer scaled a Deployment to five replicas, and the team agrees that five is the right number. What closes the drift correctly?"
+    options:
+      - id: a
+        text: "Apply the old manifest to put two replicas back."
+        explanation: "That reverts a decision the team agreed on."
+      - id: b
+        text: "Commit replicas: 5 to the manifest, so that Git states the decision."
+        explanation: "Correct. Adopting changes Git so that it matches the deliberate change."
+      - id: c
+        text: "Delete the Deployment and let the agent create it."
+        explanation: "It would create two replicas again and cause an outage."
+      - id: d
+        text: "Ignore the difference forever."
+        explanation: "The next reconciliation would revert it."
+    correct_option: b
+    explanation: "Correct. Adopting changes Git so that it matches the deliberate change."
+
+  - id: ats064-040-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain what apply does not revert"
+    source_readings:
+      - sections/section-040/module-01/course-02-reverting-adopting-and-field-ownership.md
+    prompt: "Someone adds an environment variable to a Deployment with kubectl set env. No manifest ever stated an env list. The agent runs kubectl apply with the unchanged manifest. What happens to the variable?"
+    options:
+      - id: a
+        text: "It is removed, because apply restores the whole object."
+        explanation: "Apply merges and does not restore the whole object."
+      - id: b
+        text: "The apply fails with a conflict."
+        explanation: "Client-side apply has no field owners."
+      - id: c
+        text: "The pods restart without the variable."
+        explanation: "The variable stays in the template."
+      - id: d
+        text: "It stays, because client-side apply only removes fields that were in the last applied manifest."
+        explanation: "Correct. A field that was never stated is left alone."
+    correct_option: d
+    explanation: "Correct. A field that was never stated is left alone."
+
+  - id: ats064-040-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain conflicts in server-side apply"
+    source_readings:
+      - sections/section-040/module-01/course-02-reverting-adopting-and-field-ownership.md
+    prompt: "An agent uses server-side apply and the field spec.replicas is owned by another manager with a different value. The apply is refused. What is the correct way for an agent whose repository declares that field?"
+    options:
+      - id: a
+        text: "Apply again with --force-conflicts, so the agent takes ownership of the field that Git declares."
+        explanation: "Correct. For fields that Git declares, Git is the authority."
+      - id: b
+        text: "Delete the other manager from the cluster."
+        explanation: "Managers are names in the field records, not objects."
+      - id: c
+        text: "Use --force-conflicts for every field of every object."
+        explanation: "The agent should not take fields that it does not declare."
+      - id: d
+        text: "Switch to client-side apply so that conflicts disappear."
+        explanation: "That hides the disagreement and does not resolve it."
+    correct_option: a
+    explanation: "Correct. For fields that Git declares, Git is the authority."
+

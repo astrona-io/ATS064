@@ -1,5 +1,5 @@
 version: 1
-approval: CGOA requested 2026-10-11; established reading-only scope
+approval: CGOA requested 2026-10-11; reading-only rule lifted by the maintainer 2026-11-03 (labs, playgrounds, capstones and quizzes added)
 course:
   id: ATS064
   certification:
@@ -19,18 +19,18 @@ course:
     - Feedback Loop
     - Rollback
 defaults:
-  playground: false
-  module_lab: false
-  capstone: false
-  section_quiz: false
+  playground: true
+  module_lab: true
+  capstone: true
+  section_quiz: true
   final_quiz: true
 assessment_format: YAML question banks v1, registered in assessments/index.yaml
 sections:
 - id: section-010
   title: Continuous
   curriculum_item: Continuous
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Continuous Operation, Intervals And Recovery From Missed Events
@@ -40,16 +40,16 @@ sections:
     - Reason about missed events, retries and convergence time.
     outline:
     - Continuous Operation, Intervals And Recovery From Missed Events
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
       adapted_from: null
 - id: section-020
   title: Declarative Description
   curriculum_item: Declarative Description
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Declarative Descriptions And Implementation Independence
@@ -59,15 +59,15 @@ sections:
     - Reason about hidden defaults and external dependencies.
     outline:
     - Declarative Descriptions And Implementation Independence
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
       adapted_from: null
 - id: section-030
   title: Desired State
   curriculum_item: Desired State
-  capstone: false
+  capstone: true
   section_quiz: true
   modules:
   - id: module-01
@@ -78,16 +78,16 @@ sections:
     - Reason about references, generated fields and behavioral reconstruction.
     outline:
     - Desired State, Managed Scope And Persistent Application Data
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
       adapted_from: null
 - id: section-040
   title: State Drift
   curriculum_item: State Drift
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: State Drift, Ownership And Meaningful Comparison
@@ -97,16 +97,16 @@ sections:
     - Reason about competing writers and emergency modifications.
     outline:
     - State Drift, Ownership And Meaningful Comparison
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
       adapted_from: null
 - id: section-050
   title: State Reconciliation
   curriculum_item: State Reconciliation
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Observe, Compare, Act And Report
@@ -116,15 +116,15 @@ sections:
     - Identify blocked convergence and actionable status evidence.
     outline:
     - Observe, Compare, Act And Report
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-050/module-01/course-01-observe-compare-act-and-report.md
       adapted_from: null
 - id: section-060
   title: GitOps Managed Software System
   curriculum_item: GitOps Managed Software System
-  capstone: false
+  capstone: true
   section_quiz: true
   modules:
   - id: module-01
@@ -135,16 +135,16 @@ sections:
     - Reason about identity, ownership and external systems.
     outline:
     - Managed Runtimes, Agents And Policy Boundaries
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
       adapted_from: null
 - id: section-070
   title: State Store
   curriculum_item: State Store
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: State Store Identity, History And Access Policy
@@ -154,16 +154,16 @@ sections:
     - Reason about review, audit and source credential scope.
     outline:
     - State Store Identity, History And Access Policy
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
       adapted_from: null
 - id: section-080
   title: Feedback Loop
   curriculum_item: Feedback Loop
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Outcome Feedback, Health And Control Decisions
@@ -173,16 +173,16 @@ sections:
     - Reason about stale status and actionable failure signals.
     outline:
     - Outcome Feedback, Health And Control Decisions
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
       adapted_from: null
 - id: section-090
   title: Rollback
   curriculum_item: Rollback
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Reverting Intent, Artifact Compatibility And Data Recovery
@@ -192,8 +192,8 @@ sections:
     - Identify compatibility and irreversible side-effect limits.
     outline:
     - Reverting Intent, Artifact Compatibility And Data Recovery
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
       adapted_from: null

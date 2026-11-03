@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Feedback Loop (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-080
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: both-fixed-in-git
+      description: "The committed manifests of shuttle and drifter no longer use the missing image tag or the missing readiness path"
+      type: file
+      source: validation/validate-both-fixed-in-git.sh
+      hint: "Fix the image tag of shuttle and the readiness path of drifter in apps, then commit."
+    - name: all-converged
+      description: "Every Deployment in starfleet is converged: current status, all replicas updated and available, Progressing True"
+      type: file
+      source: validation/validate-all-converged.sh
+      hint: "Apply apps and wait with kubectl rollout status for each Deployment."
+    - name: sync-status-record
+      description: "The ConfigMap sync-status in starfleet has revision equal to the HEAD SHA, result Synced and failed-before drifter,shuttle"
+      type: file
+      source: validation/validate-sync-status-record.sh
+      hint: "Create the ConfigMap after your last commit, with --from-literal for revision, result and failed-before."
+    - name: matches-git
+      description: "kubectl diff on apps shows no difference and sync-status is not stored in Git"
+      type: file
+      source: validation/validate-matches-git.sh
+      hint: "Keep sync-status out of apps: it is created live. Run kubectl diff -R -f apps."
+    - name: workloads-running
+      description: "scout and probe are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

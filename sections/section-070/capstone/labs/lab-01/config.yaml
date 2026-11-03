@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# State Store (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-070
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: tag-and-cluster
+      description: "An annotated tag release-1 names the parent of the EXPERIMENTAL_MODE commit and the cluster matches it"
+      type: file
+      source: validation/validate-tag-and-cluster.sh
+      hint: "Find the commit with git log -S, tag its parent with git tag -a, then apply an export of the tag."
+    - name: review-hook
+      description: "A commit-msg hook rejects a message without a Reviewed-by trailer and accepts one with it"
+      type: file
+      source: validation/validate-review-hook.sh
+      hint: "Create an executable .git/hooks/commit-msg that checks the message file given as $1."
+    - name: audit-file
+      description: "audit.txt lists the unique authors of the seed history, one per line and sorted, and is committed"
+      type: file
+      source: validation/validate-audit-file.sh
+      hint: "Use git log seed --format=%an with sort -u, and commit the file."
+    - name: new-commits-reviewed
+      description: "Every new commit has a Reviewed-by trailer and the history was not rewritten"
+      type: file
+      source: validation/validate-new-commits-reviewed.sh
+      hint: "Install the hook before you commit anything, and add commits only."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment."
+
+teardown:
+  keepCluster: false

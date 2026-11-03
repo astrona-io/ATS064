@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Desired State (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-030
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: configmap-in-git
+      description: "The ConfigMap scout-settings is declared in Git with its live data"
+      type: file
+      source: validation/validate-configmap-in-git.sh
+      hint: "Export the ConfigMap, remove the generated fields and save it as a manifest under apps. Keep LOG_LEVEL and REGION."
+    - name: service-in-git
+      description: "The Service shuttle is declared in Git with port 9898 and the selector app: shuttle"
+      type: file
+      source: validation/validate-service-in-git.sh
+      hint: "Export the Service shuttle, remove uid, resourceVersion, creationTimestamp, clusterIP, clusterIPs and status, and keep the port and selector."
+    - name: no-generated-fields
+      description: "No file in apps holds a generated or allocated field"
+      type: file
+      source: validation/validate-no-generated-fields.sh
+      hint: "Search the whole apps directory for uid, resourceVersion, creationTimestamp, clusterIP, clusterIPs and status."
+    - name: no-system-objects
+      description: "The system-made ConfigMap kube-root-ca.crt is not committed"
+      type: file
+      source: validation/validate-no-system-objects.sh
+      hint: "The cluster creates kube-root-ca.crt in every namespace. It is not part of the desired state."
+    - name: git-covers-cluster
+      description: "Every Deployment, Service and ConfigMap in starfleet, except system-made ones, is produced by apps"
+      type: file
+      source: validation/validate-git-covers-cluster.sh
+      hint: "Compare kubectl -n starfleet get deployments,services,configmaps -o name with kubectl apply --dry-run=client -R -f apps -o name."
+    - name: matches-and-committed
+      description: "kubectl diff on apps shows no difference and the work is committed on top of the seed"
+      type: file
+      source: validation/validate-matches-and-committed.sh
+      hint: "Run kubectl diff -R -f apps, then commit the new files in a new commit."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or an object that you export."
+
+teardown:
+  keepCluster: false

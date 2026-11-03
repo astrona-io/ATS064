@@ -2,7 +2,7 @@
 
 Certified GitOps Associate (CGOA): GitOps Terminology, worth 20% of the official curriculum. This course belongs to ATP013.
 
-Developed reading explains mechanisms, responsible components, examples and limits. Every section has an introduction and every module closes with a summary. Reusable YAML checks contain 5–15 questions per bank. Technical content remains draft. No labs or playgrounds are included.
+Developed reading explains mechanisms, responsible components, examples and limits. Every section has an introduction, a playground and graded lab per module, a capstone lab and a knowledge check, and every module closes with a summary. A final knowledge check closes the course. Technical content remains draft. Labs and playgrounds are built untested.
 
 ## Course Outline
 
@@ -20,4 +20,4 @@ Developed reading explains mechanisms, responsible components, examples and limi
 
 ## Author Review
 
-See [curriculum coverage](CURRICULUM.md), [primary sources](SOURCES.md), [question-bank documentation](ASSESSMENTS.md) and [contribution instructions](CONTRIBUTING.md). No runtime execution is claimed.
+See [curriculum coverage](CURRICULUM.md), [primary sources](SOURCES.md), [question-bank documentation](ASSESSMENTS.md) and [contribution instructions](CONTRIBUTING.md). Labs and playgrounds are UNTESTED: only static checks were run.

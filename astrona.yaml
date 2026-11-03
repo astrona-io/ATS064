@@ -1,9 +1,10 @@
-# Reading-only content; YAML knowledge checks have a separate index.
+# Course manifest for ATS064. Each section lists its README, modules (landing, parts, lab Question reading and lab entry after the part tested, summary), a capstone lab and a quiz. Every lab and playground was built untested.
 training:
   id: ATS064
   title: 'CGOA: GitOps Terminology'
-  description: 'Detailed reading material and reusable YAML knowledge checks for CGOA: GitOps Terminology.
-    Technical content remains draft. No labs or playgrounds.'
+  description: Concept lessons, diagrams, playgrounds, graded labs, capstones and original scenario quizzes
+    covering every published objective in the CGOA GitOps Terminology domain. Labs run on kind (Kubernetes 1.35)
+    with a local Git repository as the state store.
   certification:
     name: Certified GitOps Associate
     code: CGOA
@@ -21,172 +22,630 @@ training:
     - Feedback Loop
     - Rollback
 modules:
-- id: module-intro
-  title: Introduction
-  description: Audience, reading method and review process.
-  content:
-  - type: reading
+  - id: module-intro
     title: Introduction
-    path: sections/intro/README.md
-  - type: reading
-    title: Welcome To The Course
-    path: sections/intro/course-01-welcome.md
-  - type: reading
-    title: Get Your Machine Ready
-    path: sections/intro/course-02-get-your-machine-ready.md
-  - type: reading
-    title: How This Course Is Made
-    path: sections/intro/course-03-how-this-course-is-made.md
-- id: module-010
-  title: Continuous
-  description: Developed reading and reasoning for Continuous.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Continuous
-    path: sections/section-010/README.md
-  - type: reading
-    title: Continuous Operation, Intervals And Recovery From Missed Events
-    path: sections/section-010/module-01/course.md
-  - type: reading
-    title: Continuous Operation, Intervals And Recovery From Missed Events
-    path: sections/section-010/module-01/course-01-continuous-operation-intervals-and-recovery-from-missed-events.md
-  - type: reading
-    title: Summary
-    path: sections/section-010/module-01/course-02-summary.md
-- id: module-020
-  title: Declarative Description
-  description: Developed reading and reasoning for Declarative Description.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Declarative Description
-    path: sections/section-020/README.md
-  - type: reading
-    title: Declarative Descriptions And Implementation Independence
-    path: sections/section-020/module-01/course.md
-  - type: reading
-    title: Declarative Descriptions And Implementation Independence
-    path: sections/section-020/module-01/course-01-declarative-descriptions-and-implementation-independence.md
-  - type: reading
-    title: Summary
-    path: sections/section-020/module-01/course-02-summary.md
-- id: module-030
-  title: Desired State
-  description: Developed reading and reasoning for Desired State.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Desired State
-    path: sections/section-030/README.md
-  - type: reading
-    title: Desired State, Managed Scope And Persistent Application Data
-    path: sections/section-030/module-01/course.md
-  - type: reading
-    title: Desired State, Managed Scope And Persistent Application Data
-    path: sections/section-030/module-01/course-01-desired-state-managed-scope-and-persistent-application-data.md
-  - type: reading
-    title: Summary
-    path: sections/section-030/module-01/course-02-summary.md
-- id: module-040
-  title: State Drift
-  description: Developed reading and reasoning for State Drift.
-  maturity: alpha
-  content:
-  - type: reading
-    title: State Drift
-    path: sections/section-040/README.md
-  - type: reading
-    title: State Drift, Ownership And Meaningful Comparison
-    path: sections/section-040/module-01/course.md
-  - type: reading
-    title: State Drift, Ownership And Meaningful Comparison
-    path: sections/section-040/module-01/course-01-state-drift-ownership-and-meaningful-comparison.md
-  - type: reading
-    title: Summary
-    path: sections/section-040/module-01/course-02-summary.md
-- id: module-050
-  title: State Reconciliation
-  description: Developed reading and reasoning for State Reconciliation.
-  maturity: alpha
-  content:
-  - type: reading
-    title: State Reconciliation
-    path: sections/section-050/README.md
-  - type: reading
-    title: Observe, Compare, Act And Report
-    path: sections/section-050/module-01/course.md
-  - type: reading
-    title: Observe, Compare, Act And Report
-    path: sections/section-050/module-01/course-01-observe-compare-act-and-report.md
-  - type: reading
-    title: Summary
-    path: sections/section-050/module-01/course-02-summary.md
-- id: module-060
-  title: GitOps Managed Software System
-  description: Developed reading and reasoning for GitOps Managed Software System.
-  maturity: alpha
-  content:
-  - type: reading
-    title: GitOps Managed Software System
-    path: sections/section-060/README.md
-  - type: reading
-    title: Managed Runtimes, Agents And Policy Boundaries
-    path: sections/section-060/module-01/course.md
-  - type: reading
-    title: Managed Runtimes, Agents And Policy Boundaries
-    path: sections/section-060/module-01/course-01-managed-runtimes-agents-and-policy-boundaries.md
-  - type: reading
-    title: Summary
-    path: sections/section-060/module-01/course-02-summary.md
-- id: module-070
-  title: State Store
-  description: Developed reading and reasoning for State Store.
-  maturity: alpha
-  content:
-  - type: reading
-    title: State Store
-    path: sections/section-070/README.md
-  - type: reading
-    title: State Store Identity, History And Access Policy
-    path: sections/section-070/module-01/course.md
-  - type: reading
-    title: State Store Identity, History And Access Policy
-    path: sections/section-070/module-01/course-01-state-store-identity-history-and-access-policy.md
-  - type: reading
-    title: Summary
-    path: sections/section-070/module-01/course-02-summary.md
-- id: module-080
-  title: Feedback Loop
-  description: Developed reading and reasoning for Feedback Loop.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Feedback Loop
-    path: sections/section-080/README.md
-  - type: reading
-    title: Outcome Feedback, Health And Control Decisions
-    path: sections/section-080/module-01/course.md
-  - type: reading
-    title: Outcome Feedback, Health And Control Decisions
-    path: sections/section-080/module-01/course-01-outcome-feedback-health-and-control-decisions.md
-  - type: reading
-    title: Summary
-    path: sections/section-080/module-01/course-02-summary.md
-- id: module-090
-  title: Rollback
-  description: Developed reading and reasoning for Rollback.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Rollback
-    path: sections/section-090/README.md
-  - type: reading
-    title: Reverting Intent, Artifact Compatibility And Data Recovery
-    path: sections/section-090/module-01/course.md
-  - type: reading
-    title: Reverting Intent, Artifact Compatibility And Data Recovery
-    path: sections/section-090/module-01/course-01-reverting-intent-artifact-compatibility-and-data-recovery.md
-  - type: reading
-    title: Summary
-    path: sections/section-090/module-01/course-02-summary.md
+    description: Audience, learning approach, reading requirements and contribution process.
+    content:
+    - type: reading
+      title: Introduction
+      path: sections/intro/README.md
+    - type: reading
+      title: Welcome To The Course
+      path: sections/intro/course-01-welcome.md
+    - type: reading
+      title: Get Your Machine Ready
+      path: sections/intro/course-02-get-your-machine-ready.md
+    - type: reading
+      title: How This Course Is Made
+      path: sections/intro/course-03-how-this-course-is-made.md
+  - id: module-010
+    title: "Continuous"
+    description: >
+      Makes the reader able to explain continuous operation: the difference between a one-time job and a repeating agent, polling and events, missed events, and convergence time, with a reconciliation loop built against a Git repository.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "Continuous Operation And Missed Events"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "One-Time Delivery Versus A Continuous Agent"
+        path: sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+      - type: reading
+        title: "Intervals, Events And Missed Events"
+        path: sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+      - type: reading
+        title: "Question"
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Build A Reconciliation Loop Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: build
+        tags: [continuous, reconciliation, git, kubectl-apply, polling]
+        learning_goals:
+          - Write a script that compares and applies a Git repository in a loop
+          - Make the loop configurable with an interval and a one-pass mode
+          - Commit the script and make the cluster match the latest commit
+        resources:
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+          - name: "kubectl apply"
+            url: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_apply/
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Continuous Operation Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: gitops
+        task_kind: build
+        tags: [continuous, reconciliation, failure-handling, interval, git]
+        learning_goals:
+          - Fix an invalid manifest in a new commit without rewriting history
+          - Build a loop that reports a failed apply and keeps applying valid manifests
+          - Make three Deployments match the latest commit
+        resources:
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+          - name: "kubectl diff"
+            url: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/
+      - type: quiz
+        title: "Knowledge Check: Continuous"
+        path: sections/section-010/quiz.yaml
+        pass_score: 70
+  - id: module-020
+    title: "Declarative Description"
+    description: >
+      Makes the reader able to tell a declarative description from an imperative procedure and to check a declaration for scope, stable references, hidden defaults and undeclared dependencies.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "Declarative Descriptions And Implementation Independence"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "Declarative Versus Imperative Descriptions"
+        path: sections/section-020/module-01/course-01-declarative-versus-imperative-descriptions.md
+      - type: reading
+        title: "Scope, References, Defaults And Dependencies"
+        path: sections/section-020/module-01/course-02-scope-references-defaults-and-dependencies.md
+      - type: reading
+        title: "Question"
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Replace An Imperative Deployment With A Declaration Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: build
+        tags: [declarative, imperative, kubectl-apply, manifest, idempotence]
+        learning_goals:
+          - Write a complete manifest for a Deployment created by hand
+          - Commit the manifest and apply it so the live object is managed from it
+          - Explain why the container name must match
+        resources:
+          - name: "Declarative management of Kubernetes objects"
+            url: https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-020/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Declarative Description Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: gitops
+        task_kind: fix
+        tags: [declarative, namespace, image-tag, configmap, defaults]
+        learning_goals:
+          - Declare the namespace of a manifest
+          - Pin an image that resolved to latest
+          - Declare a ConfigMap dependency and apply the complete description
+        resources:
+          - name: "Kubernetes ConfigMaps"
+            url: https://kubernetes.io/docs/concepts/configuration/configmap/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: quiz
+        title: "Knowledge Check: Declarative Description"
+        path: sections/section-020/quiz.yaml
+        pass_score: 70
+  - id: module-030
+    title: "Desired State"
+    description: >
+      Makes the reader able to separate declared fields from system-generated fields and to check that a Git repository is versioned, immutable and complete as the state store of a cluster.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Desired State In Version Control"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "What Belongs In The Desired State"
+        path: sections/section-030/module-01/course-01-what-belongs-in-the-desired-state.md
+      - type: reading
+        title: "Versioned, Immutable And Complete"
+        path: sections/section-030/module-01/course-02-versioned-immutable-and-complete.md
+      - type: reading
+        title: "Question"
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Clean A Raw Export Of Live State Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [desired-state, export, resourceversion, service, spec-status]
+        learning_goals:
+          - Find fields that the cluster generated in an export
+          - Remove them and keep the declared intent
+          - Commit the cleaned file as the desired state
+        resources:
+          - name: "Kubernetes object management"
+            url: https://kubernetes.io/docs/concepts/overview/working-with-objects/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-030/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Desired State Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: gitops
+        task_kind: build
+        tags: [desired-state, export, configmap, service, coverage]
+        learning_goals:
+          - Find live objects that Git does not describe
+          - Export them without generated fields
+          - Verify that Git covers the cluster
+        resources:
+          - name: "kubectl apply reference"
+            url: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_apply/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: quiz
+        title: "Knowledge Check: Desired State"
+        path: sections/section-030/quiz.yaml
+        pass_score: 70
+  - id: module-040
+    title: "Drift"
+    description: >
+      Makes the reader able to detect configuration drift, decide whether to revert or adopt it, and explain field ownership in server-side apply.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-040/README.md
+
+      - type: reading
+        title: "Configuration Drift"
+        path: sections/section-040/module-01/course.md
+      - type: reading
+        title: "What Drift Is And How To Detect It"
+        path: sections/section-040/module-01/course-01-what-drift-is-and-how-to-detect-it.md
+      - type: reading
+        title: "Reverting, Adopting And Field Ownership"
+        path: sections/section-040/module-01/course-02-reverting-adopting-and-field-ownership.md
+      - type: reading
+        title: "Question"
+        path: sections/section-040/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Report And Reconcile Drift Lab"
+        path: sections/section-040/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [drift, kubectl-diff, adopt, revert, reconcile]
+        learning_goals:
+          - Detect drift with kubectl diff
+          - Write a drift report with a decision for each difference
+          - Adopt one change in Git and revert the other in the cluster
+        resources:
+          - name: "kubectl diff reference"
+            url: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_diff/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-040/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-040/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Drift Capstone"
+        path: sections/section-040/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: gitops
+        task_kind: fix
+        tags: [drift, server-side-apply, field-manager, force-conflicts, scope]
+        learning_goals:
+          - Reconcile with server-side apply and a named field manager
+          - Take ownership of declared fields with force-conflicts
+          - Leave objects outside the scope untouched
+        resources:
+          - name: "Server-side apply"
+            url: https://kubernetes.io/docs/reference/using-api/server-side-apply/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: quiz
+        title: "Knowledge Check: Drift"
+        path: sections/section-040/quiz.yaml
+        pass_score: 70
+  - id: module-050
+    title: "Reconciliation"
+    description: >
+      Makes the reader able to explain the reconciliation loop, tell applied from converged, and diagnose rejected, blocked and unhealthy deliveries from cluster evidence.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-050/README.md
+
+      - type: reading
+        title: "Reconciliation"
+        path: sections/section-050/module-01/course.md
+      - type: reading
+        title: "The Reconciliation Loop"
+        path: sections/section-050/module-01/course-01-the-reconciliation-loop.md
+      - type: reading
+        title: "When Reconciliation Fails"
+        path: sections/section-050/module-01/course-02-when-reconciliation-fails.md
+      - type: reading
+        title: "Question"
+        path: sections/section-050/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Find And Fix A Stuck Rollout Lab"
+        path: sections/section-050/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [reconciliation, rollout, imagepullbackoff, events, convergence]
+        learning_goals:
+          - Find why a rollout is stuck
+          - Fix the cause with a new commit
+          - Confirm convergence with rollout status
+        resources:
+          - name: "Deployments"
+            url: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-050/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-050/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Reconciliation Capstone"
+        path: sections/section-050/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 45m
+        topic: gitops
+        task_kind: fix
+        tags: [reconciliation, resourcequota, imagepullbackoff, validation, idempotence]
+        learning_goals:
+          - Classify three failures as rejected, blocked and unhealthy
+          - Fix each cause in Git
+          - Show that a repeated apply changes nothing
+        resources:
+          - name: "Resource quotas"
+            url: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: quiz
+        title: "Knowledge Check: Reconciliation"
+        path: sections/section-050/quiz.yaml
+        pass_score: 70
+  - id: module-060
+    title: "Managed System"
+    description: >
+      Makes the reader able to name the parts of a GitOps setup, define the scope of the managed system and give an agent a narrow identity that is tested with kubectl auth can-i.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-060/README.md
+
+      - type: reading
+        title: "The Managed System And The Agent"
+        path: sections/section-060/module-01/course.md
+      - type: reading
+        title: "What The Managed System Is"
+        path: sections/section-060/module-01/course-01-what-the-managed-system-is.md
+      - type: reading
+        title: "Agent Identity And Least Privilege"
+        path: sections/section-060/module-01/course-02-agent-identity-and-least-privilege.md
+      - type: reading
+        title: "Question"
+        path: sections/section-060/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Give The Agent A Narrow Identity Lab"
+        path: sections/section-060/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: build
+        tags: [rbac, serviceaccount, role, rolebinding, least-privilege]
+        learning_goals:
+          - Create a ServiceAccount, a Role and a RoleBinding for the agent
+          - Avoid wildcards and cluster-wide grants
+          - Test permissions with kubectl auth can-i
+        resources:
+          - name: "Using RBAC authorization"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-060/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-060/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Managed System Capstone"
+        path: sections/section-060/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 45m
+        topic: gitops
+        task_kind: build
+        tags: [rbac, least-privilege, pod-security, bootstrap, serviceaccount]
+        learning_goals:
+          - Bootstrap the agent apart from the applications
+          - Enforce a Pod Security level through a namespace label
+          - Fix a workload that the new rule blocks
+        resources:
+          - name: "Pod Security Admission"
+            url: https://kubernetes.io/docs/concepts/security/pod-security-admission/
+          - name: "Using RBAC authorization"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+      - type: quiz
+        title: "Knowledge Check: Managed System"
+        path: sections/section-060/quiz.yaml
+        pass_score: 70
+  - id: module-070
+    title: "State Store"
+    description: >
+      Makes the reader able to explain what a state store provides, find the commit that introduced a change with git log -S, tag the last good revision and apply it without rewriting history.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-070/README.md
+
+      - type: reading
+        title: "The State Store And Its History"
+        path: sections/section-070/module-01/course.md
+      - type: reading
+        title: "The State Store And Its History"
+        path: sections/section-070/module-01/course-01-the-state-store-and-its-history.md
+      - type: reading
+        title: "Finding And Marking A Revision"
+        path: sections/section-070/module-01/course-02-finding-and-marking-a-revision.md
+      - type: reading
+        title: "Question"
+        path: sections/section-070/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Find And Mark The Last Good Revision Lab"
+        path: sections/section-070/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [git, history, tag, audit, revision]
+        learning_goals:
+          - Find a commit with git log -S
+          - Create an annotated tag and record its commit SHA
+          - Apply an older revision without rewriting history
+        resources:
+          - name: "Git revision selection"
+            url: https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-070/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-070/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "State Store Capstone"
+        path: sections/section-070/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 45m
+        topic: gitops
+        task_kind: build
+        tags: [git, hooks, trailers, audit, tag]
+        learning_goals:
+          - Enforce a review trailer with a commit-msg hook
+          - Tag and apply the last good revision
+          - Produce an audit list from the history
+        resources:
+          - name: "Git hooks"
+            url: https://git-scm.com/docs/githooks
+          - name: "git interpret-trailers"
+            url: https://git-scm.com/docs/git-interpret-trailers
+      - type: quiz
+        title: "Knowledge Check: State Store"
+        path: sections/section-070/quiz.yaml
+        pass_score: 70
+  - id: module-080
+    title: "Feedback Loop"
+    description: >
+      Makes the reader able to read Deployment status and conditions, tell applied from healthy, diagnose a failed delivery and report the result with its revision.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-080/README.md
+
+      - type: reading
+        title: "The Feedback Loop"
+        path: sections/section-080/module-01/course.md
+      - type: reading
+        title: "The Feedback Loop"
+        path: sections/section-080/module-01/course-01-the-feedback-loop.md
+      - type: reading
+        title: "Reporting Delivery Status"
+        path: sections/section-080/module-01/course-02-reporting-delivery-status.md
+      - type: reading
+        title: "Question"
+        path: sections/section-080/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Read A Failed Delivery And Fix It Lab"
+        path: sections/section-080/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [feedback, conditions, progress-deadline, readiness, rollout]
+        learning_goals:
+          - Read the Progressing condition of a failed Deployment
+          - Fix the cause in Git
+          - Confirm convergence from the status
+        resources:
+          - name: "Deployments"
+            url: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-080/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-080/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Feedback Loop Capstone"
+        path: sections/section-080/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 45m
+        topic: gitops
+        task_kind: fix
+        tags: [feedback, status, revision, rollout, diagnosis]
+        learning_goals:
+          - Diagnose two different delivery failures
+          - Fix both in Git and wait for convergence
+          - Publish a status record tied to the HEAD revision
+        resources:
+          - name: "Deployments"
+            url: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+          - name: "Probes"
+            url: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+      - type: quiz
+        title: "Knowledge Check: Feedback Loop"
+        path: sections/section-080/quiz.yaml
+        pass_score: 70
+  - id: module-090
+    title: "Rollback"
+    description: >
+      Makes the reader able to roll back a bad change with git revert, keep good commits, verify with diffs and recognize what a rollback cannot restore.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-090/README.md
+
+      - type: reading
+        title: "Rollback"
+        path: sections/section-090/module-01/course.md
+      - type: reading
+        title: "Why Rollback Is A Commit"
+        path: sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+      - type: reading
+        title: "Reverting Safely"
+        path: sections/section-090/module-01/course-02-reverting-safely.md
+      - type: reading
+        title: "Question"
+        path: sections/section-090/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Roll Back A Bad Commit Lab"
+        path: sections/section-090/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: gitops
+        task_kind: fix
+        tags: [rollback, git-revert, history, deployment, recovery]
+        learning_goals:
+          - Revert a bad commit without rewriting history
+          - Apply the result and confirm convergence
+          - Check that data outside Git is unchanged
+        resources:
+          - name: "git revert"
+            url: https://git-scm.com/docs/git-revert
+          - name: "OpenGitOps principles"
+            url: https://opengitops.dev/
+      - type: reading
+        title: "Summary"
+        path: sections/section-090/module-01/course-03-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-090/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Rollback Capstone"
+        path: sections/section-090/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 45m
+        topic: gitops
+        task_kind: fix
+        tags: [rollback, git-revert, history, convergence, data]
+        learning_goals:
+          - Revert several bad commits and keep a good one
+          - Verify the result with git diff and kubectl diff
+          - Confirm runtime data survived
+        resources:
+          - name: "git revert"
+            url: https://git-scm.com/docs/git-revert
+          - name: "Deployments"
+            url: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+      - type: quiz
+        title: "Knowledge Check: Rollback"
+        path: sections/section-090/quiz.yaml
+        pass_score: 70
+  - id: module-final
+    title: Final Domain Quiz
+    description: Knowledge check across all nine sections of the domain.
+    content:
+      - type: quiz
+        title: "Final Domain Quiz: GitOps Terminology"
+        path: sections/final-domain-quiz.yaml
+        pass_score: 70

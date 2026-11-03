@@ -1,23 +1,27 @@
 ---
 draft: true
 exam_objectives:
-- Rollback
+  - Rollback
 ---
-# Reverting Intent, Artifact Compatibility And Data Recovery
+# Rollback
 
-This module develops reverting Intent, Artifact Compatibility And Data Recovery. Use the explanations to connect intended behavior with responsible components and observable evidence.
+This module explains how a GitOps setup undoes a bad change. A rollback is a new commit that reverses an earlier one, and the agent applies it like any other change. You revert one or several commits, keep the good commits between them, and check that data which never lived in Git survives.
 
 ## Learning Goals
 
-- Explain rollback as a controlled desired-state change.
-- Distinguish configuration reversal from persistent-data restoration.
-- Identify compatibility and irreversible side-effect limits.
+- Explain why a rollback in GitOps is a commit and not a command on the cluster.
+- Use `git revert` to undo one or several commits without rewriting history.
+- Keep good changes that sit between the bad ones.
+- Name what a rollback cannot undo, such as data and deleted objects.
 
 ## Before You Start
 
-Examples illustrate declared relationships and reasoning. No execution environment is required or claimed.
+You should know `git log`, `git commit` and how to apply manifests with `kubectl`. The hands-on part uses a playground with a kind cluster, `kubectl`, `git` and `jq`. Technical terms are defined where they first appear.
 
 ## Reading Order
 
-1. Reverting Intent, Artifact Compatibility And Data Recovery
-2. Summary
+1. Why Rollback Is A Commit
+2. Reverting Safely
+3. Summary
+
+<!-- astrona:playground -->

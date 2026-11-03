@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Continuous Operation (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-010
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: manifest-fixed-in-git
+      description: "The invalid shuttle manifest is fixed in a new commit and passes server-side validation"
+      type: file
+      source: validation/validate-manifest-fixed-in-git.sh
+      hint: "Find the unknown field with kubectl apply --dry-run=server -R -f apps. Fix the file and commit; do not rewrite old commits."
+    - name: cluster-converged
+      description: "scout, probe and shuttle in the cluster match the replica counts in the latest commit"
+      type: file
+      source: validation/validate-cluster-converged.sh
+      hint: "After the fix is committed, run one pass of your script and wait for the rollouts."
+    - name: script-committed
+      description: "reconcile.sh is executable, valid and committed"
+      type: file
+      source: validation/validate-script-committed.sh
+      hint: "chmod +x reconcile.sh, then git add and git commit."
+    - name: script-interval-and-revision
+      description: "The loop runs several passes with INTERVAL=2, prints the revision and stops with RECONCILE_ONCE"
+      type: file
+      source: validation/validate-script-interval-and-revision.sh
+      hint: "Read INTERVAL with a default, print git rev-parse --short HEAD in every pass, sleep \"$INTERVAL\" and exit when RECONCILE_ONCE is set."
+    - name: script-survives-failed-apply
+      description: "A failed apply is reported with the word FAILED and does not stop other manifests from being applied"
+      type: file
+      source: validation/validate-script-survives-failed-apply.sh
+      hint: "Do not use set -e. Test the exit status of kubectl apply, print FAILED when it is not zero and continue. kubectl apply still applies the valid files."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete or scale a Deployment to zero."
+
+teardown:
+  keepCluster: false

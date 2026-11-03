@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Find And Fix A Stuck Rollout (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-050-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: report
+      description: "report.txt names the failing object, the failure reason and the wrong tag, and is committed"
+      type: file
+      source: validation/validate-report.sh
+      hint: "Create report.txt at the root of the repository. Name scout, the reason ImagePullBackOff and the tag 6.15.O. Commit it."
+    - name: fixed-in-git
+      description: "A new commit states the image ghcr.io/stefanprodan/podinfo:6.15.0 for scout"
+      type: file
+      source: validation/validate-fixed-in-git.sh
+      hint: "Edit apps/deployment-scout.yaml and write the tag 6.15.0 with a zero. Commit it."
+    - name: rollout-converged
+      description: "The scout Deployment has finished its rollout with the image 6.15.0 and no pod waits on an image pull"
+      type: file
+      source: validation/validate-rollout-converged.sh
+      hint: "Apply the repository and wait with kubectl -n starfleet rollout status deployment/scout."
+    - name: matches-git
+      description: "kubectl diff on apps shows no difference and the working tree is clean"
+      type: file
+      source: validation/validate-matches-git.sh
+      hint: "Run kubectl diff -R -f apps. It must exit 0. Commit all your files."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero. The old pods keep scout available while the new pod fails."
+
+teardown:
+  keepCluster: false

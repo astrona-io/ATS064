@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Clean A Raw Export Of Live State (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-030-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: generated-fields-removed
+      description: "apps/service-scout.yaml holds no uid, resourceVersion, creationTimestamp, clusterIP, clusterIPs or status"
+      type: file
+      source: validation/validate-generated-fields-removed.sh
+      hint: "Delete the fields that the cluster generated. They are uid, resourceVersion, creationTimestamp, clusterIP, clusterIPs and the whole status block."
+    - name: intent-kept
+      description: "The Service keeps its name, namespace, selector and port 9898"
+      type: file
+      source: validation/validate-intent-kept.sh
+      hint: "Keep the fields that people decided: name, namespace, selector app: scout and the port 9898 with targetPort 9898."
+    - name: applies-and-matches
+      description: "The file passes a server-side dry run and kubectl diff shows no difference with the live Service"
+      type: file
+      source: validation/validate-applies-and-matches.sh
+      hint: "Check with kubectl apply --dry-run=server -f apps/service-scout.yaml and kubectl diff -f apps/service-scout.yaml."
+    - name: committed-on-history
+      description: "The cleaned file is committed in a new commit on top of the seed with a clean working tree"
+      type: file
+      source: validation/validate-committed-on-history.sh
+      hint: "Run git add and git commit. Do not rewrite or amend the existing commits."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete the Service or a Deployment."
+
+teardown:
+  keepCluster: false

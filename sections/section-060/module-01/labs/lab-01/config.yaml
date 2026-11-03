@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Give The Agent A Narrow Identity (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-060-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: identity-declared
+      description: "The ServiceAccount gitops-agent exists in gitops-system and is declared in a committed file under platform"
+      type: file
+      source: validation/validate-identity-declared.sh
+      hint: "Save the namespace gitops-system and the ServiceAccount under platform, commit them and apply them."
+    - name: role-is-narrow
+      description: "A Role gitops-agent exists in starfleet without wildcards and covers deployments, services and configmaps"
+      type: file
+      source: validation/validate-role-is-narrow.sh
+      hint: "List explicit apiGroups, resources and verbs. Do not use \"*\"."
+    - name: agent-can-deliver
+      description: "The agent identity may patch deployments and create services and configmaps in starfleet"
+      type: file
+      source: validation/validate-agent-can-deliver.sh
+      hint: "Bind the Role to the ServiceAccount with a RoleBinding in starfleet. The subject lives in gitops-system."
+    - name: agent-is-contained
+      description: "The agent identity may not read secrets, delete namespaces or change deployments in outpost"
+      type: file
+      source: validation/validate-agent-is-contained.sh
+      hint: "Use a Role in starfleet and not a ClusterRole. Do not include secrets in the rules."
+    - name: committed-on-history
+      description: "The manifests are committed on top of the seed with a clean working tree"
+      type: file
+      source: validation/validate-committed-on-history.sh
+      hint: "Commit the files under platform in a new commit."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment."
+
+teardown:
+  keepCluster: false

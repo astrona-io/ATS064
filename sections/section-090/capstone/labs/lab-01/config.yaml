@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Rollback (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-090
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: bad-reverted-good-kept
+      description: "probe and shuttle manifests equal the first commit and scout equals the scaled version"
+      type: file
+      source: validation/validate-bad-reverted-good-kept.sh
+      hint: "Revert the two bad commits and not the scale-up of scout between them."
+    - name: history-kept
+      description: "The history was not rewritten: the four seed commits are ancestors of HEAD and the tree is clean"
+      type: file
+      source: validation/validate-history-kept.sh
+      hint: "Do not use git reset or a forced update. Add new commits only."
+    - name: all-converged
+      description: "kubectl diff shows no difference and every Deployment in starfleet is converged"
+      type: file
+      source: validation/validate-all-converged.sh
+      hint: "Apply apps and wait with kubectl rollout status for probe and shuttle."
+    - name: scout-scaled
+      description: "scout runs 3 replicas, so the good change between the bad commits is live"
+      type: file
+      source: validation/validate-scout-scaled.sh
+      hint: "Do not revert the scale-up of scout."
+    - name: data-survived
+      description: "The ConfigMap visitor-log still exists with count 42"
+      type: file
+      source: validation/validate-data-survived.sh
+      hint: "Do not delete objects. Apply only the apps directory."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

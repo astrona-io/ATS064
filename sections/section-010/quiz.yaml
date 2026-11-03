@@ -1,0 +1,199 @@
+# Knowledge check for section-010. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-010
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "Continuous"
+questions:
+  - id: ats064-010-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Distinguish a one-time deployment job from a continuous agent"
+    source_readings:
+      - sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+    prompt: "A pipeline runs kubectl apply after every merge to main and then exits. A week later, an administrator scales a Deployment by hand. The pipeline does not run again. What does this show?"
+    options:
+      - id: a
+        text: "The Kubernetes API server rejects manual scaling in a GitOps cluster."
+        explanation: "The API server accepts the change from an authorized user. GitOps does not add that rule by itself."
+      - id: b
+        text: "The pipeline applies a revision once, and nothing compares the cluster with Git between merges, so the manual change stays."
+        explanation: "Correct. A one-time job ends after its run. Only a component that repeats the comparison can notice a later change."
+      - id: c
+        text: "The Git repository is no longer the desired state."
+        explanation: "The repository still holds the desired state. The problem is that nothing compares it with the cluster."
+      - id: d
+        text: "The pipeline must have failed, because a successful run keeps the cluster correct."
+        explanation: "A successful run is correct only at the time it ran."
+    correct_option: b
+    explanation: "Correct. A one-time job ends after its run. Only a component that repeats the comparison can notice a later change."
+
+  - id: ats064-010-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name what makes a GitOps agent continuous"
+    source_readings:
+      - sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+    prompt: "Which statement describes what the word continuous means in GitOps?"
+    options:
+      - id: a
+        text: "Every change reaches the cluster in less than one second."
+        explanation: "Continuous does not mean instant. Fetching, applying and the cluster's own work take time."
+      - id: b
+        text: "The pipeline runs on every commit."
+        explanation: "That is event-triggered delivery. It runs only when a commit happens."
+      - id: c
+        text: "The agent returns to the same observe, compare and act work again and again without a new trigger from a person."
+        explanation: "Correct. The repeated return to the comparison is the defining behavior."
+      - id: d
+        text: "The Git repository is hosted on a server that is always online."
+        explanation: "Availability of the server is not what makes an agent continuous."
+    correct_option: c
+    explanation: "Correct. The repeated return to the comparison is the defining behavior."
+
+  - id: ats064-010-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Reason about convergence time and the polling interval"
+    source_readings:
+      - sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+    prompt: "An agent polls every 60 seconds. A commit is pushed. Which statement about the time until the cluster matches the commit is correct?"
+    options:
+      - id: a
+        text: "The wait until the next poll is between 0 and 60 seconds, and fetching, applying and the cluster's own work are added to it."
+        explanation: "Correct. The interval controls only the first wait. The other parts add to the convergence time."
+      - id: b
+        text: "The cluster always matches the commit within 60 seconds."
+        explanation: "The pods may need longer to start, so the interval is not an upper bound."
+      - id: c
+        text: "The cluster matches after exactly 30 seconds."
+        explanation: "Thirty seconds is the average wait for the poll, not a fixed time, and it ignores the other steps."
+      - id: d
+        text: "The interval has no effect when the agent applies with kubectl apply."
+        explanation: "The interval decides when the agent starts a pass, whatever command it uses."
+    correct_option: a
+    explanation: "Correct. The interval controls only the first wait. The other parts add to the convergence time."
+
+  - id: ats064-010-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain why a timer recovers from missed events"
+    source_readings:
+      - sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+    prompt: "The Git server sends a webhook when a commit is pushed. The agent was restarting and never received it. The agent also polls every five minutes. What happens?"
+    options:
+      - id: a
+        text: "The change is lost until someone pushes another commit."
+        explanation: "This is true only for an agent that depends on events alone."
+      - id: b
+        text: "The agent applies the webhook again when it restarts."
+        explanation: "A webhook is a one-time request. The agent does not get it again."
+      - id: c
+        text: "The cluster becomes unhealthy until the webhook is sent again."
+        explanation: "The cluster keeps running at its previous revision. It is outdated, not broken."
+      - id: d
+        text: "The next poll reads the repository, finds the difference and applies the commit, so the change is delayed and not lost."
+        explanation: "Correct. The repository is the source of truth. An event only speeds up the next pass."
+    correct_option: d
+    explanation: "Correct. The repository is the source of truth. An event only speeds up the next pass."
+
+  - id: ats064-010-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the safe command for a repeated pass"
+    source_readings:
+      - sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+      - sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+    prompt: "A team writes a loop that runs a command on every pass. Which command is safe to repeat when the cluster already holds the desired state?"
+    options:
+      - id: a
+        text: "kubectl create -f apps, because it recreates every object."
+        explanation: "create fails when an object already exists."
+      - id: b
+        text: "kubectl delete -f apps followed by kubectl create -f apps."
+        explanation: "This removes and recreates the objects on every pass and interrupts the workloads."
+      - id: c
+        text: "kubectl apply -R -f apps, because it sends the desired fields and the API server changes only what differs."
+        explanation: "Correct. apply is idempotent for unchanged manifests."
+      - id: d
+        text: "kubectl scale for each Deployment with a fixed number."
+        explanation: "This repeats one field and ignores the rest of the desired state."
+    correct_option: c
+    explanation: "Correct. apply is idempotent for unchanged manifests."
+
+  - id: ats064-010-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Select a sound failure policy for repeated passes"
+    source_readings:
+      - sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+    prompt: "The Git server becomes unreachable and every pass of an agent fails. What should a well-designed agent do?"
+    options:
+      - id: a
+        text: "Exit, so that a person must restart it."
+        explanation: "The agent should recover without a person."
+      - id: b
+        text: "Record the failure, keep the loop alive and retry on later passes with a growing delay."
+        explanation: "Correct. The agent recovers when the source returns, and a growing delay avoids adding load on a struggling dependency."
+      - id: c
+        text: "Retry as fast as possible until the server answers."
+        explanation: "A tight retry loop adds load exactly when the server is struggling."
+      - id: d
+        text: "Delete the managed workloads, because the desired state is unknown."
+        explanation: "The cluster keeps running the last applied revision. Deleting it would cause an outage."
+    correct_option: b
+    explanation: "Correct. The agent recovers when the source returns, and a growing delay avoids adding load on a struggling dependency."
+
+  - id: ats064-010-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Identify when repetition does not give useful management"
+    source_readings:
+      - sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+    prompt: "Two agents run every minute. Agent A writes replicas: 2 for a Deployment and agent B writes replicas: 5 for the same Deployment. What is the result?"
+    options:
+      - id: a
+        text: "The larger value always wins, so the Deployment settles at 5."
+        explanation: "Each agent writes its own value on its pass, so there is no stable result."
+      - id: b
+        text: "Kubernetes rejects the second agent after the first write."
+        explanation: "Both writes are valid requests. The API server does not reject them for this reason."
+      - id: c
+        text: "The result is correct, because both agents run continuously."
+        explanation: "Running continuously is not enough without a single owner."
+      - id: d
+        text: "The value changes back and forth on every pass, because the repetition has no single owner for the field."
+        explanation: "Correct. Continuous operation requires one clear owner for each managed field."
+    correct_option: d
+    explanation: "Correct. Continuous operation requires one clear owner for each managed field."
+
+  - id: ats064-010-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Evaluate a claim that a system is continuous"
+    source_readings:
+      - sections/section-010/module-01/course-01-one-time-delivery-versus-a-continuous-agent.md
+      - sections/section-010/module-01/course-02-intervals-events-and-missed-events.md
+    prompt: "A vendor says its tool is continuous because the pipeline runs on every commit and takes only ten seconds. Which question shows most clearly that the claim is incomplete?"
+    options:
+      - id: a
+        text: "What starts the next comparison if nobody commits and someone changes the cluster by hand?"
+        explanation: "Correct. A continuous system repeats the comparison without a new commit. A fast pipeline still waits for an event."
+      - id: b
+        text: "Does the pipeline use Git?"
+        explanation: "Using Git does not make the work repeat."
+      - id: c
+        text: "Does the pipeline finish in less than one minute?"
+        explanation: "Speed is not the property that matters. The repeated comparison is."
+      - id: d
+        text: "Does the pipeline run kubectl or Helm?"
+        explanation: "The tool used for the apply does not decide whether the process is continuous."
+    correct_option: a
+    explanation: "Correct. A continuous system repeats the comparison without a new commit. A fast pipeline still waits for an event."
+

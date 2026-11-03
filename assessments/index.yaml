@@ -1,34 +1,63 @@
+---
 schema_version: 1
 course_id: ATS064
 status: draft
 banks:
-- id: ats064-section-030
-  path: sections/section-030/questions.yaml
-  question_count: 9
-  placement:
-    position: after
-    reading: sections/section-030/module-01/course-02-summary.md
+- id: ats064-010
+  path: sections/section-010/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-010
+- id: ats064-020
+  path: sections/section-020/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-020
+- id: ats064-030
+  path: sections/section-030/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-030
+- id: ats064-040
+  path: sections/section-040/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-040
+- id: ats064-050
+  path: sections/section-050/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-050
+- id: ats064-060
+  path: sections/section-060/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-060
+- id: ats064-070
+  path: sections/section-070/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-070
+- id: ats064-080
+  path: sections/section-080/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-080
+- id: ats064-090
+  path: sections/section-090/quiz.yaml
+  question_count: 8
+  covered_sections:
+  - section-090
+- id: ats064-final
+  path: sections/final-domain-quiz.yaml
+  question_count: 18
   covered_sections:
   - section-010
   - section-020
   - section-030
-- id: ats064-section-060
-  path: sections/section-060/questions.yaml
-  question_count: 9
-  placement:
-    position: after
-    reading: sections/section-060/module-01/course-02-summary.md
-  covered_sections:
   - section-040
   - section-050
   - section-060
-- id: ats064-domain-review
-  path: assessments/domain-review.yaml
-  question_count: 9
-  placement:
-    position: after
-    reading: sections/section-090/module-01/course-02-summary.md
-  covered_sections:
   - section-070
   - section-080
   - section-090

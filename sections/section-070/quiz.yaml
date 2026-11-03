@@ -1,0 +1,197 @@
+# Knowledge check for section-070. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-070
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-070
+  title: "State Store"
+questions:
+  - id: ats064-070-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "State store properties"
+    source_readings:
+      - sections/section-070/module-01/course-01-the-state-store-and-its-history.md
+    prompt: "Which set of properties must a state store provide for GitOps?"
+    options:
+      - id: a
+        text: "Fast, cached and compressed."
+        explanation: "These are performance traits."
+      - id: b
+        text: "Versioned, immutable and auditable."
+        explanation: "Correct. These make history trustworthy."
+      - id: c
+        text: "Encrypted, replicated and indexed."
+        explanation: "Useful, but not the defining properties."
+      - id: d
+        text: "Mutable, anonymous and temporary."
+        explanation: "This is the opposite."
+    correct_option: b
+    explanation: "Correct. These make history trustworthy."
+
+  - id: ats064-070-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "What a SHA is"
+    source_readings:
+      - sections/section-070/module-01/course-01-the-state-store-and-its-history.md
+    prompt: "What makes a Git history tamper-evident?"
+    options:
+      - id: a
+        text: "Commits are stored in an encrypted file."
+        explanation: "Git does not encrypt history by default."
+      - id: b
+        text: "Each commit has a counter."
+        explanation: "Counters are not part of the identifier."
+      - id: c
+        text: "Each commit identifier is a hash that includes its parent identifier."
+        explanation: "Correct. Changing an old commit changes all later identifiers."
+      - id: d
+        text: "The server rejects every push."
+        explanation: "A server accepts normal pushes."
+    correct_option: c
+    explanation: "Correct. Changing an old commit changes all later identifiers."
+
+  - id: ats064-070-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Branch, tag and SHA"
+    source_readings:
+      - sections/section-070/module-01/course-01-the-state-store-and-its-history.md
+    prompt: "An agent follows a tag instead of a branch. What changes?"
+    options:
+      - id: a
+        text: "Nothing is applied until someone deliberately points the agent at another tag."
+        explanation: "Correct. Each change becomes a decision."
+      - id: b
+        text: "The agent applies every new commit sooner."
+        explanation: "That is the behavior of a branch."
+      - id: c
+        text: "The agent stops reconciling."
+        explanation: "It still reconciles to the tag."
+      - id: d
+        text: "The repository stops recording history."
+        explanation: "History is unchanged."
+    correct_option: a
+    explanation: "Correct. Each change becomes a decision."
+
+  - id: ats064-070-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use trailers"
+    source_readings:
+      - sections/section-070/module-01/course-01-the-state-store-and-its-history.md
+    prompt: "What is a commit trailer?"
+    options:
+      - id: a
+        text: "A tag on the commit."
+        explanation: "A tag is a separate object."
+      - id: b
+        text: "A signature file."
+        explanation: "Signatures are different."
+      - id: c
+        text: "The parent of the commit."
+        explanation: "A parent is a commit reference."
+      - id: d
+        text: "A Key: value line at the end of the message that tools can read."
+        explanation: "Correct. Reviewed-by is an example."
+    correct_option: d
+    explanation: "Correct. Reviewed-by is an example."
+
+  - id: ats064-070-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find a commit by content"
+    source_readings:
+      - sections/section-070/module-01/course-02-finding-and-marking-a-revision.md
+    prompt: "Which command finds the commit that added the text EXPERIMENTAL_MODE?"
+    options:
+      - id: a
+        text: "git tag EXPERIMENTAL_MODE"
+        explanation: "This creates a tag."
+      - id: b
+        text: "git reset --hard EXPERIMENTAL_MODE"
+        explanation: "This is not a search and rewrites a branch."
+      - id: c
+        text: "git log -S\"EXPERIMENTAL_MODE\""
+        explanation: "Correct. The pickaxe lists commits that changed the occurrence count."
+      - id: d
+        text: "git archive EXPERIMENTAL_MODE"
+        explanation: "This exports files."
+    correct_option: c
+    explanation: "Correct. The pickaxe lists commits that changed the occurrence count."
+
+  - id: ats064-070-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Annotated tags"
+    source_readings:
+      - sections/section-070/module-01/course-02-finding-and-marking-a-revision.md
+    prompt: "A script needs the commit that the annotated tag release-1 names. Which expression gives it?"
+    options:
+      - id: a
+        text: "git rev-parse release-1"
+        explanation: "This prints the SHA of the tag object."
+      - id: b
+        text: "git rev-parse release-1^{commit}"
+        explanation: "Correct. It follows the tag object to the commit."
+      - id: c
+        text: "git log -1 --format=%h release-1~5"
+        explanation: "This names a different commit."
+      - id: d
+        text: "git cat-file -t release-1"
+        explanation: "This prints the object type."
+    correct_option: b
+    explanation: "Correct. It follows the tag object to the commit."
+
+  - id: ats064-070-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Apply an older revision"
+    source_readings:
+      - sections/section-070/module-01/course-02-finding-and-marking-a-revision.md
+    prompt: "How do you bring the cluster to an older revision and keep the branch and its history unchanged?"
+    options:
+      - id: a
+        text: "Run git reset --hard on the branch."
+        explanation: "This rewrites a branch that others read."
+      - id: b
+        text: "Delete the newer commits."
+        explanation: "This destroys the audit trail."
+      - id: c
+        text: "Delete the Deployments."
+        explanation: "This is not a revision change."
+      - id: d
+        text: "Export the revision with git archive, check it with kubectl diff and apply it."
+        explanation: "Correct. The branch is not touched."
+    correct_option: d
+    explanation: "Correct. The branch is not touched."
+
+  - id: ats064-070-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Risk of an applied older revision"
+    source_readings:
+      - sections/section-070/module-01/course-02-finding-and-marking-a-revision.md
+    prompt: "You applied the older revision and left the branch as it was. What can still go wrong?"
+    options:
+      - id: a
+        text: "The next apply from the branch brings the bad change back."
+        explanation: "Correct. The problem must also be fixed in a new commit, or the agent pointed at the tag."
+      - id: b
+        text: "The older revision is deleted from Git."
+        explanation: "Applying never deletes history."
+      - id: c
+        text: "The tag moves to HEAD."
+        explanation: "A tag does not move on its own."
+      - id: d
+        text: "Git rewrites the commit SHAs."
+        explanation: "Applying does not change SHAs."
+    correct_option: a
+    explanation: "Correct. The problem must also be fixed in a new commit, or the agent pointed at the tag."
+

@@ -1,0 +1,197 @@
+# Knowledge check for section-060. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-060
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-060
+  title: "Managed System"
+questions:
+  - id: ats064-060-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the parts of a GitOps setup"
+    source_readings:
+      - sections/section-060/module-01/course-01-what-the-managed-system-is.md
+    prompt: "Which part of a GitOps setup is the only one that talks to both the repository and the cluster?"
+    options:
+      - id: a
+        text: "The state store."
+        explanation: "The repository knows nothing about the cluster."
+      - id: b
+        text: "The agent."
+        explanation: "Correct. The store only holds the desired state and the managed system only runs objects."
+      - id: c
+        text: "The managed system."
+        explanation: "The cluster does not read Git."
+      - id: d
+        text: "The container registry."
+        explanation: "A registry is not one of the three parts."
+    correct_option: b
+    explanation: "Correct. The store only holds the desired state and the managed system only runs objects."
+
+  - id: ats064-060-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define the managed system"
+    source_readings:
+      - sections/section-060/module-01/course-01-what-the-managed-system-is.md
+    prompt: "What is the managed system?"
+    options:
+      - id: a
+        text: "The Git repository that holds the desired state."
+        explanation: "That is the state store."
+      - id: b
+        text: "The program that reads the repository."
+        explanation: "That is the agent."
+      - id: c
+        text: "The objects and workloads that the agent is responsible for changing."
+        explanation: "Correct. Its scope is the exact set of objects that the agent owns."
+      - id: d
+        text: "The developer laptops that push commits."
+        explanation: "They are not part of the managed system."
+    correct_option: c
+    explanation: "Correct. Its scope is the exact set of objects that the agent owns."
+
+  - id: ats064-060-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Draw the scope boundary"
+    source_readings:
+      - sections/section-060/module-01/course-01-what-the-managed-system-is.md
+    prompt: "The namespace starfleet contains the ConfigMap kube-root-ca.crt. It is not in the repository. How should the team treat it?"
+    options:
+      - id: a
+        text: "As an object that the cluster owns, outside the scope of the agent."
+        explanation: "Correct. The cluster creates it in every namespace."
+      - id: b
+        text: "As drift that the agent must delete."
+        explanation: "The cluster would create it again."
+      - id: c
+        text: "As an object that must be added to the repository."
+        explanation: "It is generated and not part of the desired state."
+      - id: d
+        text: "As a secret that must be rotated."
+        explanation: "It is a public certificate bundle."
+    correct_option: a
+    explanation: "Correct. The cluster creates it in every namespace."
+
+  - id: ats064-060-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the bootstrap problem"
+    source_readings:
+      - sections/section-060/module-01/course-01-what-the-managed-system-is.md
+    prompt: "Why should the permissions of the agent be applied by an administrator and not by the agent itself?"
+    options:
+      - id: a
+        text: "The agent cannot read YAML files."
+        explanation: "It reads the manifests of the repository."
+      - id: b
+        text: "Roles cannot be stored in Git."
+        explanation: "They can be stored and reviewed."
+      - id: c
+        text: "Kubernetes forbids a ServiceAccount from applying anything."
+        explanation: "A ServiceAccount can apply objects when it has the permissions."
+      - id: d
+        text: "An agent that can change its own permissions lets one bad commit grant everything."
+        explanation: "Correct. Bootstrap objects are applied apart from what the agent applies."
+    correct_option: d
+    explanation: "Correct. Bootstrap objects are applied apart from what the agent applies."
+
+  - id: ats064-060-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain a new ServiceAccount"
+    source_readings:
+      - sections/section-060/module-01/course-02-agent-identity-and-least-privilege.md
+    prompt: "A ServiceAccount has just been created and has no Role bound to it. What can it do?"
+    options:
+      - id: a
+        text: "Everything in its namespace."
+        explanation: "A namespace does not grant permissions."
+      - id: b
+        text: "Read everything in the cluster."
+        explanation: "There is no default read access beyond some discovery rules."
+      - id: c
+        text: "Nothing: its requests are authenticated and then denied."
+        explanation: "Correct. Permissions come only from bindings."
+      - id: d
+        text: "Everything that the pod using it asks for."
+        explanation: "A pod does not widen the identity."
+    correct_option: c
+    explanation: "Correct. Permissions come only from bindings."
+
+  - id: ats064-060-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe Role and RoleBinding"
+    source_readings:
+      - sections/section-060/module-01/course-02-agent-identity-and-least-privilege.md
+    prompt: "What does a RoleBinding do?"
+    options:
+      - id: a
+        text: "It defines the rules of the Role."
+        explanation: "The Role defines the rules."
+      - id: b
+        text: "It attaches a Role to subjects such as a ServiceAccount, with the permissions applying in the namespace of the Role."
+        explanation: "Correct. The rules are in the Role and the grant is in the binding."
+      - id: c
+        text: "It gives the subject access to the whole cluster."
+        explanation: "That is what a ClusterRoleBinding does."
+      - id: d
+        text: "It creates the ServiceAccount."
+        explanation: "A binding does not create subjects."
+    correct_option: b
+    explanation: "Correct. The rules are in the Role and the grant is in the binding."
+
+  - id: ats064-060-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Apply least privilege"
+    source_readings:
+      - sections/section-060/module-01/course-02-agent-identity-and-least-privilege.md
+    prompt: "Which Role is the best fit for an agent that applies Deployments, Services and ConfigMaps in one namespace?"
+    options:
+      - id: a
+        text: "A ClusterRole bound to cluster-admin."
+        explanation: "This gives the agent control of everything."
+      - id: b
+        text: "A Role with \"*\" for resources and verbs in the namespace."
+        explanation: "A wildcard includes Secrets and deletes."
+      - id: c
+        text: "A Role that can edit Roles and RoleBindings in the namespace."
+        explanation: "The agent could then grant itself more."
+      - id: d
+        text: "A Role in that namespace with explicit verbs on those three kinds and no wildcard."
+        explanation: "Correct. It gives only what the job needs."
+    correct_option: d
+    explanation: "Correct. It gives only what the job needs."
+
+  - id: ats064-060-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Test permissions"
+    source_readings:
+      - sections/section-060/module-01/course-02-agent-identity-and-least-privilege.md
+    prompt: "Which set of checks best verifies the agent permissions?"
+    options:
+      - id: a
+        text: "Run kubectl auth can-i with --as for what the agent must be able to do, and for what it must not be able to do."
+        explanation: "Correct. The negative checks catch a Role that is too wide."
+      - id: b
+        text: "Run only the checks that expect yes."
+        explanation: "An identity with too much power also passes them."
+      - id: c
+        text: "Read the Role file and assume it is applied."
+        explanation: "The live object may differ."
+      - id: d
+        text: "Delete the ServiceAccount and see what breaks."
+        explanation: "That is not a test of the permissions."
+    correct_option: a
+    explanation: "Correct. The negative checks catch a Role that is too wide."
+

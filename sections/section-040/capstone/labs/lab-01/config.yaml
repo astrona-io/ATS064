@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Drift (CAPSTONE). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-capstone-040
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: starfleet-converged
+      description: "scout, probe and shuttle match their manifests in replicas and memory limit"
+      type: file
+      source: validation/validate-starfleet-converged.sh
+      hint: "Apply the three manifests of the starfleet namespace. HEAD states shuttle with 2 replicas."
+    - name: agent-owns-fields
+      description: "The Deployments scout, probe and shuttle have a server-side apply entry for the manager gitops-agent"
+      type: file
+      source: validation/validate-agent-owns-fields.sh
+      hint: "Use kubectl apply --server-side --field-manager=gitops-agent. Add --force-conflicts, because other managers own the drifted fields."
+    - name: outpost-untouched
+      description: "The drifter Deployment in outpost still has 5 replicas and no gitops-agent entry"
+      type: file
+      source: validation/validate-outpost-untouched.sh
+      hint: "The drifter belongs to another scope. Apply only the files of the starfleet namespace."
+    - name: git-unchanged
+      description: "Git was not edited: HEAD is the seed commit and the working tree is clean"
+      type: file
+      source: validation/validate-git-unchanged.sh
+      hint: "Reconcile the cluster to Git. Do not change or commit any file."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

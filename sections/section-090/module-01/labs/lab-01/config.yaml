@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Roll Back A Bad Commit (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-090-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: reverted-by-commit
+      description: "The bad commit was reversed by a new git revert commit on top of the seed, and the history is intact"
+      type: file
+      source: validation/validate-reverted-by-commit.sh
+      hint: "Use git revert --no-edit on the newest commit. Do not use git reset."
+    - name: apps-restored
+      description: "The files under apps at HEAD equal the last good revision and the working tree is clean"
+      type: file
+      source: validation/validate-apps-restored.sh
+      hint: "Compare with git diff seed~1 HEAD -- apps. It must print nothing."
+    - name: cluster-converged
+      description: "kubectl diff shows no difference and probe is converged with its image restored"
+      type: file
+      source: validation/validate-cluster-converged.sh
+      hint: "Apply apps and wait with kubectl rollout status deployment/probe."
+    - name: data-survived
+      description: "The ConfigMap visitor-log still exists with count 42"
+      type: file
+      source: validation/validate-data-survived.sh
+      hint: "Do not delete objects. Apply only the apps directory."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment."
+
+teardown:
+  keepCluster: false

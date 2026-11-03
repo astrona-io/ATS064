@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Report And Reconcile Drift (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-040-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: drift-report
+      description: "drift-report.md names both drifted objects and fields and is committed"
+      type: file
+      source: validation/validate-drift-report.sh
+      hint: "Create drift-report.md at the root of the repository. Name scout and its replicas, and probe and its memory limit, with the live and the declared values. Commit it."
+    - name: intentional-change-adopted
+      description: "The committed manifest of scout states 5 replicas, matching the live Deployment"
+      type: file
+      source: validation/validate-intentional-change-adopted.sh
+      hint: "The scale of scout to 5 was deliberate. Edit apps/deployment-scout.yaml so that it states replicas: 5, and commit it."
+    - name: unintended-change-reverted
+      description: "The memory limit of probe is back to 128Mi in the cluster and unchanged in Git"
+      type: file
+      source: validation/validate-unintended-change-reverted.sh
+      hint: "The 256Mi limit of probe was not decided. Do not commit it. Apply apps/deployment-probe.yaml."
+    - name: no-drift-left
+      description: "kubectl diff on apps shows no difference"
+      type: file
+      source: validation/validate-no-drift-left.sh
+      hint: "Run kubectl diff -R -f apps. It must exit 0."
+    - name: committed-on-history
+      description: "The changes are committed on top of the seed with a clean working tree"
+      type: file
+      source: validation/validate-committed-on-history.sh
+      hint: "Commit the report and the manifest. Do not rewrite existing commits."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment or scale it to zero."
+
+teardown:
+  keepCluster: false

@@ -1,0 +1,197 @@
+# Knowledge check for section-090. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-090
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-090
+  title: "Rollback"
+questions:
+  - id: ats064-090-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "What a rollback is"
+    source_readings:
+      - sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+    prompt: "In a GitOps setup, what is a rollback?"
+    options:
+      - id: a
+        text: "A command that changes only the cluster."
+        explanation: "The next sync would undo it."
+      - id: b
+        text: "A change of the repository whose result equals an earlier good state, applied by the agent."
+        explanation: "Correct. It is an ordinary delivery."
+      - id: c
+        text: "Deleting the Git repository."
+        explanation: "That removes the source of truth."
+      - id: d
+        text: "Restarting every pod."
+        explanation: "A restart does not change the declared state."
+    correct_option: b
+    explanation: "Correct. It is an ordinary delivery."
+
+  - id: ats064-090-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Rollout undo conflict"
+    source_readings:
+      - sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+    prompt: "Why is kubectl rollout undo not enough in a GitOps setup?"
+    options:
+      - id: a
+        text: "It deletes the Deployment."
+        explanation: "It does not delete."
+      - id: b
+        text: "It cannot run on a Deployment."
+        explanation: "It works on Deployments."
+      - id: c
+        text: "The repository still holds the bad change, so the next sync applies it again."
+        explanation: "Correct. It must be followed by a commit."
+      - id: d
+        text: "It changes the Git history."
+        explanation: "It does not touch Git."
+    correct_option: c
+    explanation: "Correct. It must be followed by a commit."
+
+  - id: ats064-090-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Revert versus reset"
+    source_readings:
+      - sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+    prompt: "Which command undoes a commit on a shared branch without rewriting history?"
+    options:
+      - id: a
+        text: "git revert <commit>"
+        explanation: "Correct. It adds a new commit that applies the opposite change."
+      - id: b
+        text: "git reset --hard <commit>"
+        explanation: "It moves the branch back and rewrites history."
+      - id: c
+        text: "git push --force"
+        explanation: "It overwrites the remote history."
+      - id: d
+        text: "git gc"
+        explanation: "It cleans up objects only."
+    correct_option: a
+    explanation: "Correct. It adds a new commit that applies the opposite change."
+
+  - id: ats064-090-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Verify a revert"
+    source_readings:
+      - sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+    prompt: "After a revert of the newest commit, which command checks that the files equal the state before the bad commit?"
+    options:
+      - id: a
+        text: "git log -1"
+        explanation: "It shows the last message only."
+      - id: b
+        text: "git status"
+        explanation: "It shows the working tree, not history."
+      - id: c
+        text: "git diff HEAD HEAD -- apps"
+        explanation: "It compares a commit with itself."
+      - id: d
+        text: "git diff HEAD~2 HEAD -- apps, which prints nothing."
+        explanation: "Correct. The revert adds one commit, so HEAD~2 is the state before the bad commit."
+    correct_option: d
+    explanation: "Correct. The revert adds one commit, so HEAD~2 is the state before the bad commit."
+
+  - id: ats064-090-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Data a rollback does not restore"
+    source_readings:
+      - sections/section-090/module-01/course-01-why-rollback-is-a-commit.md
+    prompt: "A ConfigMap written by the application at runtime is not in the repository. What happens to it when you revert a commit?"
+    options:
+      - id: a
+        text: "It is restored to an earlier value."
+        explanation: "Git does not hold its history."
+      - id: b
+        text: "It is deleted by the revert."
+        explanation: "Only pruning of removed manifests could do that."
+      - id: c
+        text: "It is unchanged: a revert affects only the declared state."
+        explanation: "Correct. Damaged runtime data needs a backup."
+      - id: d
+        text: "It is copied to the repository."
+        explanation: "Nothing writes back."
+    correct_option: c
+    explanation: "Correct. Damaged runtime data needs a backup."
+
+  - id: ats064-090-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Keep good commits"
+    source_readings:
+      - sections/section-090/module-01/course-02-reverting-safely.md
+    prompt: "Two bad commits have a good commit between them. What is the best way to roll back?"
+    options:
+      - id: a
+        text: "Reset to the commit before the first bad one."
+        explanation: "It discards the good commit and rewrites history."
+      - id: b
+        text: "Revert only the two bad commits and keep the good one."
+        explanation: "Correct. Reverting back to the last good point would discard the good change."
+      - id: c
+        text: "Delete the good commit."
+        explanation: "History must not be rewritten."
+      - id: d
+        text: "Revert all four commits."
+        explanation: "It undoes the good commit and the first one."
+    correct_option: b
+    explanation: "Correct. Reverting back to the last good point would discard the good change."
+
+  - id: ats064-090-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Conflicts"
+    source_readings:
+      - sections/section-090/module-01/course-02-reverting-safely.md
+    prompt: "git revert stops with a conflict. What does it tell you?"
+    options:
+      - id: a
+        text: "The repository is corrupt."
+        explanation: "A conflict is normal."
+      - id: b
+        text: "The commit was already reverted."
+        explanation: "That is a different message."
+      - id: c
+        text: "The cluster rejected the change."
+        explanation: "Git has no link to the cluster."
+      - id: d
+        text: "A later commit changed the same lines, so a person must decide what the combined result should be."
+        explanation: "Correct. Edit, add and run git revert --continue, or abort."
+    correct_option: d
+    explanation: "Correct. Edit, add and run git revert --continue, or abort."
+
+  - id: ats064-090-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Pruning risk"
+    source_readings:
+      - sections/section-090/module-01/course-02-reverting-safely.md
+    prompt: "Why should you know whether the agent prunes before you revert a commit that removes a manifest?"
+    options:
+      - id: a
+        text: "With pruning on, the agent deletes live objects whose manifests are gone, including their data."
+        explanation: "Correct. Without pruning, objects stay in the cluster."
+      - id: b
+        text: "Pruning changes the Git history."
+        explanation: "Pruning acts on the cluster."
+      - id: c
+        text: "Pruning blocks git revert."
+        explanation: "Git does not know about pruning."
+      - id: d
+        text: "Pruning restores deleted data."
+        explanation: "It deletes, it does not restore."
+    correct_option: a
+    explanation: "Correct. Without pruning, objects stay in the cluster."
+

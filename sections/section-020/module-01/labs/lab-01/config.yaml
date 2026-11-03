@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Replace An Imperative Deployment With A Declaration (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-020-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: declared-and-committed
+      description: "apps/deployment-scout.yaml exists, is committed and the working tree is clean"
+      type: file
+      source: validation/validate-declared-and-committed.sh
+      hint: "Create apps/deployment-scout.yaml, then git add and git commit it."
+    - name: scope-and-image-declared
+      description: "The manifest names the namespace starfleet, a pinned image tag and a memory limit"
+      type: file
+      source: validation/validate-scope-and-image-declared.sh
+      hint: "Set metadata.namespace to starfleet, use the image ghcr.io/stefanprodan/podinfo:6.15.0 and add resources.limits.memory of 128Mi."
+    - name: applied-declaratively
+      description: "The live scout Deployment was applied from the manifest and kubectl diff shows no difference"
+      type: file
+      source: validation/validate-applied-declaratively.sh
+      hint: "Run kubectl apply -f apps/deployment-scout.yaml. Use the container name podinfo, because that is the name the existing Deployment uses."
+    - name: one-container
+      description: "The scout pods have exactly one container, named podinfo"
+      type: file
+      source: validation/validate-one-container.sh
+      hint: "A second container means the manifest used a different container name. The name of a container is its merge key. Use podinfo."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment. Edit and apply the manifest instead."
+
+teardown:
+  keepCluster: false

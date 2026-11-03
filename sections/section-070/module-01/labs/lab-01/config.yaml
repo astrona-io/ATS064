@@ -1,0 +1,68 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Find And Mark The Last Good Revision (LAB). Graded against the live cluster and the Git repository. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-064-lab-070-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-gitops-lab
+      description: Create the Git repository and apply its starting revision
+      type: file
+      source: bootstrap/01-seed.sh
+
+# Applied only by `astrona test`: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+    - name: wait-for-settled
+      description: Wait until the Deployments have rolled out
+      type: file
+      source: testing/wait-for-settled.sh
+
+validation:
+  scripts:
+    - name: tag-on-last-good
+      description: "An annotated tag release-1 names the parent of the commit that added EXPERIMENTAL_MODE"
+      type: file
+      source: validation/validate-tag-on-last-good.sh
+      hint: "Find the commit with git log -S, then tag its parent with git tag -a."
+    - name: released-file
+      description: "released.txt holds the full SHA of the tagged commit and is committed"
+      type: file
+      source: validation/validate-released-file.sh
+      hint: "Use git rev-parse release-1^{commit} > released.txt, then add and commit the file."
+    - name: cluster-at-release
+      description: "The cluster matches the files of release-1 and shuttle has no EXPERIMENTAL_MODE variable"
+      type: file
+      source: validation/validate-cluster-at-release.sh
+      hint: "Export the tag with git archive and apply it. Do not check out another revision in the working tree."
+    - name: history-intact
+      description: "The history was not rewritten: the seed and the bad commit are still on main"
+      type: file
+      source: validation/validate-history-intact.sh
+      hint: "Do not use git reset or a forced update. Add commits only."
+    - name: workloads-running
+      description: "scout, probe and shuttle are available"
+      type: file
+      source: validation/validate-workloads-running.sh
+      hint: "Do not delete a Deployment."
+
+teardown:
+  keepCluster: false

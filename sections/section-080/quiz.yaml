@@ -1,0 +1,197 @@
+# Knowledge check for section-080. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats064-080
+course_id: ATS064
+exam_code: CGOA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-080
+  title: "Feedback Loop"
+questions:
+  - id: ats064-080-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Applied versus healthy"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "A kubectl apply returned without an error. What does that prove?"
+    options:
+      - id: a
+        text: "The pods are running and ready."
+        explanation: "Pods may not even be created yet."
+      - id: b
+        text: "The API server accepted the objects; it does not prove the workload is healthy."
+        explanation: "Correct. Health is a separate fact reported by the controllers."
+      - id: c
+        text: "The image was pulled."
+        explanation: "The API server does not pull images."
+      - id: d
+        text: "The cluster matches the repository and works."
+        explanation: "Matching is not the same as working."
+    correct_option: b
+    explanation: "Correct. Health is a separate fact reported by the controllers."
+
+  - id: ats064-080-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Sync and health status"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "What does the sync status of an agent report?"
+    options:
+      - id: a
+        text: "Whether the application passes its tests."
+        explanation: "That is not what sync reports."
+      - id: b
+        text: "The CPU use of the nodes."
+        explanation: "That is a metric."
+      - id: c
+        text: "Whether the cluster matches the repository."
+        explanation: "Correct. The health status reports whether the workloads work."
+      - id: d
+        text: "The number of commits."
+        explanation: "That is a repository fact."
+    correct_option: c
+    explanation: "Correct. The health status reports whether the workloads work."
+
+  - id: ats064-080-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "observedGeneration"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "Why compare status.observedGeneration to metadata.generation?"
+    options:
+      - id: a
+        text: "When they differ, the status describes an older spec and must not be trusted."
+        explanation: "Correct. Equal numbers mean the controller has processed the current spec."
+      - id: b
+        text: "They count how many pods exist."
+        explanation: "Replica fields do that."
+      - id: c
+        text: "They hold the image tag."
+        explanation: "The spec holds it."
+      - id: d
+        text: "They show the number of restarts."
+        explanation: "Pod status shows restarts."
+    correct_option: a
+    explanation: "Correct. Equal numbers mean the controller has processed the current spec."
+
+  - id: ats064-080-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Progress deadline"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "What happens when a Deployment makes no progress within progressDeadlineSeconds?"
+    options:
+      - id: a
+        text: "The Deployment is deleted."
+        explanation: "Nothing is deleted."
+      - id: b
+        text: "The controller rolls back to the previous ReplicaSet."
+        explanation: "It does not roll back automatically."
+      - id: c
+        text: "The pods are restarted until they pass."
+        explanation: "Restarts follow container failures, not the deadline."
+      - id: d
+        text: "The Progressing condition becomes False with the reason ProgressDeadlineExceeded; the controller does not roll back."
+        explanation: "Correct. It records the fact for people and tools."
+    correct_option: d
+    explanation: "Correct. It records the fact for people and tools."
+
+  - id: ats064-080-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Readiness as the signal"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "What does a Deployment without a readiness probe report?"
+    options:
+      - id: a
+        text: "The Deployment never becomes available."
+        explanation: "Pods without probes are counted as ready."
+      - id: b
+        text: "The Deployment is rejected by the API server."
+        explanation: "A probe is optional."
+      - id: c
+        text: "Pods count as ready as soon as the container starts, so a broken application can look healthy."
+        explanation: "Correct. The probe is the signal that the feedback loop uses."
+      - id: d
+        text: "The Deployment waits for a manual approval."
+        explanation: "No such step exists."
+    correct_option: c
+    explanation: "Correct. The probe is the signal that the feedback loop uses."
+
+  - id: ats064-080-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Turn status into a decision"
+    source_readings:
+      - sections/section-080/module-01/course-01-the-feedback-loop.md
+    prompt: "Which command blocks until a rollout completes and exits non-zero when the progress deadline is exceeded?"
+    options:
+      - id: a
+        text: "kubectl get deployment <name>"
+        explanation: "It prints once and returns."
+      - id: b
+        text: "kubectl rollout status deployment/<name>"
+        explanation: "Correct. Use a timeout in scripts."
+      - id: c
+        text: "kubectl scale deployment <name>"
+        explanation: "It changes replicas."
+      - id: d
+        text: "git status"
+        explanation: "It reads the repository, not the cluster."
+    correct_option: b
+    explanation: "Correct. Use a timeout in scripts."
+
+  - id: ats064-080-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Fix in the right place"
+    source_readings:
+      - sections/section-080/module-01/course-02-reporting-delivery-status.md
+    prompt: "A Deployment is stuck because its manifest in Git has a wrong readiness path. What is the correct fix?"
+    options:
+      - id: a
+        text: "Edit the live Deployment with kubectl edit and leave Git unchanged."
+        explanation: "The next sync would undo the fix."
+      - id: b
+        text: "Delete the pod repeatedly."
+        explanation: "A new pod has the same probe."
+      - id: c
+        text: "Increase the progress deadline."
+        explanation: "It hides the failure for longer."
+      - id: d
+        text: "Correct the manifest, commit it and apply."
+        explanation: "Correct. The cause is in the repository."
+    correct_option: d
+    explanation: "Correct. The cause is in the repository."
+
+  - id: ats064-080-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Report with a revision"
+    source_readings:
+      - sections/section-080/module-01/course-02-reporting-delivery-status.md
+    prompt: "What must a delivery report carry to be useful?"
+    options:
+      - id: a
+        text: "The revision as a full SHA, the result and the reason."
+        explanation: "Correct. Without the revision, a status cannot be tied to a change."
+      - id: b
+        text: "Only the word healthy."
+        explanation: "It does not say at which commit."
+      - id: c
+        text: "The names of all pods."
+        explanation: "These are noise for most readers."
+      - id: d
+        text: "A message for every reconciliation."
+        explanation: "Constant messages are ignored."
+    correct_option: a
+    explanation: "Correct. Without the revision, a status cannot be tied to a change."
+
