@@ -157,7 +157,7 @@ modules:
         difficulty: advanced
         estimated_duration: 40m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [declarative, namespace, image-tag, configmap, defaults]
         learning_goals:
           - Declare the namespace of a manifest
@@ -200,7 +200,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [desired-state, export, resourceversion, service, spec-status]
         learning_goals:
           - Find fields that the cluster generated in an export
@@ -267,7 +267,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [drift, kubectl-diff, adopt, revert, reconcile]
         learning_goals:
           - Detect drift with kubectl diff
@@ -291,7 +291,7 @@ modules:
         difficulty: advanced
         estimated_duration: 40m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [drift, server-side-apply, field-manager, force-conflicts, scope]
         learning_goals:
           - Reconcile with server-side apply and a named field manager
@@ -334,7 +334,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [reconciliation, rollout, imagepullbackoff, events, convergence]
         learning_goals:
           - Find why a rollout is stuck
@@ -358,7 +358,7 @@ modules:
         difficulty: advanced
         estimated_duration: 45m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [reconciliation, resourcequota, imagepullbackoff, validation, idempotence]
         learning_goals:
           - Classify three failures as rejected, blocked and unhealthy
@@ -468,7 +468,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [git, history, tag, audit, revision]
         learning_goals:
           - Find a commit with git log -S
@@ -535,7 +535,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [feedback, conditions, progress-deadline, readiness, rollout]
         learning_goals:
           - Read the Progressing condition of a failed Deployment
@@ -559,7 +559,7 @@ modules:
         difficulty: advanced
         estimated_duration: 45m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [feedback, status, revision, rollout, diagnosis]
         learning_goals:
           - Diagnose two different delivery failures
@@ -602,7 +602,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [rollback, git-revert, history, deployment, recovery]
         learning_goals:
           - Revert a bad commit without rewriting history
@@ -626,7 +626,7 @@ modules:
         difficulty: advanced
         estimated_duration: 45m
         topic: gitops
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [rollback, git-revert, history, convergence, data]
         learning_goals:
           - Revert several bad commits and keep a good one
